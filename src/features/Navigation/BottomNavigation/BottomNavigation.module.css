@@ -1,0 +1,12 @@
+.BottomNavigation {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 0;
+}
+
+.Cta {
+    position: absolute;
+    right: 5%;
+    bottom: 28px;
+}
