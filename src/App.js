@@ -14,22 +14,13 @@ import CompetitorManager from './features/Competitors/CompetitorManager/Competit
 import WorkSpace from './features/WorkSpace/WorkSpace';
 import NoInternetWall from './features/NoInternetWall/NoInternetWall';
 
-function getContent(activeContent) {
-    switch (activeContent) {
-        case ActiveContent.EVENT_LIST:
-            return <EventList />;
-        case ActiveContent.EVENT_MANAGER:
-            return <EventManager />;
-        case ActiveContent.COMPETITOR_LIST:
-            return <CompetitorList />;
-        case ActiveContent.COMPETITOR_MANAGER:
-            return <CompetitorManager />;
-        case ActiveContent.WORK_SPACE:
-            return <WorkSpace />;
-        default:
-            return <div>unknown active content</div>;
-    }
-}
+const mainView = {
+    [ActiveContent.EVENT_LIST]: <EventList />,
+    [ActiveContent.EVENT_MANAGER]: <EventManager />,
+    [ActiveContent.COMPETITOR_LIST]: <CompetitorList />,
+    [ActiveContent.COMPETITOR_MANAGER]: <CompetitorManager />,
+    [ActiveContent.WORK_SPACE]: <WorkSpace />
+};
 
 
 function App() {
@@ -61,7 +52,7 @@ function App() {
                 <TopNavigation />
             </Header>
             <Page>
-                {getContent(activeContent)}
+                {mainView[activeContent]}
                 <div style={{ height: '112px' }} />
             </Page>
             <BottomNavigation />

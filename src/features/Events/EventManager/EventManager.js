@@ -27,6 +27,7 @@ import { ActiveContent, setActiveContent } from '../../Navigation/navigationSlic
 import { AgesPerGroup, Exceptional } from '../../../app/lib/values';
 import { getBirthYear } from '../../../app/lib/year';
 import { useManagerStyles } from '../../../app/styleHooks';
+import { parseCommaSeparation } from './util';
 
 const marginProp = 'dense';
 
@@ -49,6 +50,10 @@ function EventManager() {
     useEffect(() => () => dispatch(resetEvents()), [ dispatch ]);
 
     const saveAndExit = () => {
+        const parsedGymnastics = {};
+        Object.keys(gymnastics).forEach(key => {
+            parsedGymnastics[key] = parseCommaSeparation(gymnastics[key]);
+        });
         dispatch(saveEvent({
             id,
             name,
@@ -58,7 +63,7 @@ function EventManager() {
             start,
             final,
             disciplines,
-            gymnastics,
+            gymnastics: parsedGymnastics,
             competitorIds
         }));
         if (id === 0) {
