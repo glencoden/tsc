@@ -1,5 +1,5 @@
 import { getPoints } from '../../../app/lib/points';
-import { AgesPerGroup, Group } from '../../../app/lib/values';
+import { AgesPerGroup, Gender, Group } from '../../../app/lib/values';
 import { getAge } from '../../../app/lib/year';
 
 function addRanks(competitors, eventId) {
@@ -55,10 +55,13 @@ function addRanks(competitors, eventId) {
     });
 }
 
-export function getRanks(competitors, eventId) {
-    const ranksByGroups = {};
-    Object.values(Group).forEach(name => {
-        ranksByGroups[name] = competitors.filter(e => AgesPerGroup[name].includes(getAge(e.year)));
+export function getRanks(competitors, eventIds) {
+    const competitionClasses = [];
+    Object.values(Group).forEach(groupKey => {
+        const ageClass = competitors.filter(e => AgesPerGroup[groupKey].includes(getAge(e.year)));
+        Object.values(Gender).forEach(genderKey => {
+            competitionClasses.push(ageClass.filter(e => genderKey === e.gender));
+        });
     });
-    return Object.values(ranksByGroups).reduce((r, e) => [ ...r, ...addRanks(e, eventId) ], []);
+    return competitionClasses.reduce((r, e) => [ ...r, ...addRanks(e, eventIds) ], []);
 }

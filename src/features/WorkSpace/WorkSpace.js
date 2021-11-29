@@ -92,7 +92,7 @@ function WorkSpace() {
         const curCompetitorList = getRanks(competitors, activeEvent.final ? eventIdsForYear : activeEvent.id)
             .sort((a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0));
         setCompetitorList(curCompetitorList);
-    }, [ activeEvent.id, competitors ]);
+    }, [ activeEvent.id, competitors, activeEvent.final ]); // eventIdsForYear will be the same unless usage around new year
 
     competitorsForPrint = competitorList;
 
