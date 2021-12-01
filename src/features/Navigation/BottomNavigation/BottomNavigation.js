@@ -6,6 +6,7 @@ import { SpeedDial, SpeedDialIcon, SpeedDialAction } from '@material-ui/lab';
 import { ActiveContent, setActiveContent } from '../navigationSlice';
 import { saveCompetitor } from '../../Competitors/competitorsSlice';
 import { fetchPrint, PrintActionTypes } from '../../WorkSpace/WorkSpace';
+import { getCenterContentStyle } from '../../../app/lib/getCenterContentStyle';
 
 const actions = [
     {
@@ -23,8 +24,6 @@ const actions = [
 
 function BottomNavigation() {
     const dispatch = useDispatch();
-    const vw = useSelector(state => state.harbor.vw);
-    const cw = useSelector(state => state.harbor.cw);
     const activeContent = useSelector(state => state.navigation.activeContent);
 
     const [ speedDialOpen, setSpeedDialOpen ] = useState(false);
@@ -65,7 +64,7 @@ function BottomNavigation() {
     return (
         <footer
             className={s.BottomNavigation}
-            style={{ width: `${cw}px`, margin: `0 ${(vw - cw) / 2}px` }}
+            style={getCenterContentStyle()}
         >
             <div className={s.Cta}>
                 {activeContent !== ActiveContent.WORK_SPACE && (
@@ -79,7 +78,7 @@ function BottomNavigation() {
                         </span>
                     </Fab>
                 )}
-                {activeContent === ActiveContent.WORK_SPACE && vw > 576 && (
+                {activeContent === ActiveContent.WORK_SPACE && window.innerWidth > 576 && (
                     <SpeedDial
                         ariaLabel="SpeedDial example"
                         hidden={false}

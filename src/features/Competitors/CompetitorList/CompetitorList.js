@@ -6,8 +6,7 @@ import { saveEvent, addCompetitorId, removeCompetitorId } from '../../Events/eve
 import { deleteCompetitor, editCompetitor, getCompetitors } from '../competitorsSlice';
 import { useListStyles } from '../../../app/styleHooks';
 import { selectActiveEvent } from '../../../app/selectors';
-import { isObject } from 'harbor-js';
-import { defaultValues } from '../../../app/lib/helpers';
+import { defaultValues, isObject } from '../../../app/lib/helpers';
 import useInterval from '../../../app/hooks/useInterval';
 
 const refreshTime = 15;

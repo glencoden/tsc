@@ -4,7 +4,7 @@ import { Card, CardContent, CardActions, Typography, Button, IconButton } from '
 import { ActiveContent, setActiveContent } from '../../Navigation/navigationSlice';
 import { deleteEvent, setEventId, editEvent, getEvents } from '../eventsSlice';
 import { Exceptional } from '../../../app/lib/values';
-import { isObject } from 'harbor-js';
+import { isObject } from '../../../app/lib/helpers';
 import { useListStyles } from '../../../app/styleHooks';
 import useInterval from '../../../app/hooks/useInterval';
 
