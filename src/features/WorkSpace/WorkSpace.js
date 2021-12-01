@@ -13,7 +13,7 @@ import { getWeight } from '../../app/lib/weights';
 import useFilters from '../../app/hooks/useFilters';
 import useInterval from '../../app/hooks/useInterval';
 import GymnasticsList from './GymnasticsList/GymnasticsList';
-import { requestService } from 'harbor-js';
+import { requestService } from '../../services/requestService';
 
 export const PrintActionTypes = {
     CERTIFICATES: 'certificates',

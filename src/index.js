@@ -3,13 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reducer from './app/reducer';
 import App from './App';
-import { Harbor, requestService } from 'harbor-js';
-
-requestService.setBaseUrl(
-    process.env.NODE_ENV === 'development'
-        ? 'http://127.0.0.1'
-        : 'https://wolke.glencoden.de'
-);
+import { Harbor } from 'harbor-js';
 
 const options = {
     global: {
