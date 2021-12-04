@@ -28,10 +28,10 @@ function App() {
     const activeEventName = activeEvent.name || '';
     const activeContent = useSelector(state => state.navigation.activeContent);
 
-    const [ , triggerResize ] = useState(false);
+    const [ , triggerRerender ] = useState(false);
 
     useEffect(() => {
-        const resize = () => triggerResize(prevState => !prevState);
+        const resize = () => triggerRerender(prevState => !prevState);
         window.addEventListener('resize', resize);
         return () => window.removeEventListener('resize', resize);
     }, []);

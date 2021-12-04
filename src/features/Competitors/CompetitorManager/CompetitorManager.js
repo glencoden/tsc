@@ -13,6 +13,7 @@ import { ActiveContent, setActiveContent } from '../../Navigation/navigationSlic
 import { Gender, Ages } from '../../../app/lib/values';
 import { getBirthYear } from '../../../app/lib/year';
 import { useManagerStyles } from '../../../app/styleHooks';
+import { parseCommaSeparation } from '../../Events/EventManager/util';
 
 const marginProp = 'dense';
 
@@ -34,11 +35,11 @@ function CompetitorManager() {
     const saveAndExit = () => {
         dispatch(saveCompetitor({
             id,
-            name,
+            name: parseCommaSeparation(name),
             gender,
             year,
             weight,
-            club,
+            club: parseCommaSeparation(club),
             results
         }));
         dispatch(setActiveContent(ActiveContent.COMPETITOR_LIST));

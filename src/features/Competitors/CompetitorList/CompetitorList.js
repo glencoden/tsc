@@ -25,7 +25,8 @@ function CompetitorList() {
     const [ doSave, setDoSave ] = useState(false);
 
     const refresh = useCallback(() => dispatch(getCompetitors()), [ dispatch ]);
-    useInterval(refreshTime, refresh);
+    const getCompetitorsOnMount = !isObject(competitors) || Object.keys(competitors).length === 0; // only get competitors on mount if there's no current data set
+    useInterval(refreshTime, refresh, getCompetitorsOnMount);
 
     useEffect(() => {
         if (!isObject(competitors)) {
