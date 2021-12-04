@@ -4,7 +4,7 @@ import { Card, CardContent, CardActions, Typography, Button, IconButton } from '
 import { ActiveContent, setActiveContent } from '../../Navigation/navigationSlice';
 import { deleteEvent, setEventId, editEvent, getEvents } from '../eventsSlice';
 import { Exceptional } from '../../../app/lib/values';
-import { isObject } from 'harbor-js';
+import { isObject } from '../../../app/lib/helpers';
 import { useListStyles } from '../../../app/styleHooks';
 import useInterval from '../../../app/hooks/useInterval';
 
@@ -21,7 +21,8 @@ function EventList() {
     const [ deleteIndex, setDeleteIndex ] = useState(-1);
 
     const refresh = useCallback(() => dispatch(getEvents()), [ dispatch ]);
-    useInterval(refreshTime, refresh);
+    const getEventsOnMount = !isObject(events) || Object.keys(events).length === 0;  // only get events on mount if there's no current data set
+    useInterval(refreshTime, refresh, getEventsOnMount);
 
     useEffect(() => {
         if (!isObject(events)) {
@@ -32,6 +33,12 @@ function EventList() {
         );
     }, [ events ]);
 
+    const onEdit = (e, id) => {
+        e.stopPropagation();
+        dispatch(editEvent(id));
+        dispatch(setActiveContent(ActiveContent.EVENT_MANAGER));
+    }
+
     return (
         <div>
             {!!eventList.length && eventList.map((event, i) => {
@@ -41,10 +48,8 @@ function EventList() {
                         key={i}
                         className={`${classes.card} ${active && classes.cardActive}`}
                         elevation={3}
-                        onClick={() => {
-                            dispatch(setEventId(event.id));
-                            dispatch(setActiveContent(ActiveContent.WORK_SPACE));
-                        }}
+                        onClick={() => dispatch(setEventId(event.id))}
+                        onDoubleClick={e => onEdit(e, event.id)}
                     >
                         <CardContent>
                             <div className={classes.cardContent}>
@@ -89,11 +94,7 @@ function EventList() {
                                         <>
                                             <IconButton
                                                 className={active ? classes.contrastText : ''}
-                                                onClick={e => {
-                                                    e.stopPropagation();
-                                                    dispatch(editEvent(event.id));
-                                                    dispatch(setActiveContent(ActiveContent.EVENT_MANAGER));
-                                                }}
+                                                onClick={e => onEdit(e, event.id)}
                                             >
                                                 <span className="material-icons">edit</span>
                                             </IconButton>

@@ -2,6 +2,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Stepper, Step, StepLabel, StepConnector } from '@material-ui/core';
 import { steps, setActiveStep } from '../navigationSlice';
+import styles from './TopNavigation.module.css';
+import { getCenterContentStyle } from '../../../app/lib/getCenterContentStyle';
+
+const topNavBackgroundColor = '#fff';
 
 const ColorlibConnector = withStyles({
     alternativeLabel: {
@@ -29,7 +33,7 @@ const useColorlibStepIconStyles = makeStyles({
     root: {
         backgroundColor: '#ccc',
         zIndex: 1,
-        color: '#fff',
+        color: topNavBackgroundColor,
         width: 50,
         height: 50,
         display: 'flex',
@@ -58,7 +62,8 @@ function ColorlibStepIcon(props) {
     };
 
     return (
-        <div className={`${classes.root}${active ? ` ${classes.active}` : ''}${completed ? ` ${classes.completed}` : ''}`}>
+        <div
+            className={`${classes.root}${active ? ` ${classes.active}` : ''}${completed ? ` ${classes.completed}` : ''}`}>
             {icons[String(props.icon)]}
         </div>
     );
@@ -70,16 +75,27 @@ function TopNavigation() {
     const activeStep = useSelector(state => state.navigation.activeStep);
 
     return (
-        <Stepper className="top-navigation-stepper" alternativeLabel activeStep={steps.indexOf(activeStep)} connector={<ColorlibConnector/>}>
-            {steps.map(step => (
-                <Step
-                    key={step}
-                    onClick={() => dispatch(setActiveStep(step))}
+        <>
+            <div className={styles.TopNavigation}>
+                <Stepper
+                    className={styles.TopNavigationStepper}
+                    style={getCenterContentStyle()}
+                    alternativeLabel
+                    activeStep={steps.indexOf(activeStep)}
+                    connector={<ColorlibConnector/>}
                 >
-                    <StepLabel StepIconComponent={ColorlibStepIcon} />
-                </Step>
-            ))}
-        </Stepper>
+                    {steps.map(step => (
+                        <Step
+                            key={step}
+                            onClick={() => dispatch(setActiveStep(step))}
+                        >
+                            <StepLabel StepIconComponent={ColorlibStepIcon}/>
+                        </Step>
+                    ))}
+                </Stepper>
+            </div>
+            <div className={styles.TopNavigationSpacer}/>
+        </>
     );
 }
 

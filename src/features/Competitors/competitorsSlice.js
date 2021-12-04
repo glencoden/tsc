@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { requestService } from 'harbor-js';
+import { requestService } from '../../services/requestService';
 import { Gender } from '../../app/lib/values';
 
 function getDraftCompetitor() {

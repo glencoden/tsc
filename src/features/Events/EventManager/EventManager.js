@@ -66,11 +66,7 @@ function EventManager() {
             gymnastics: parsedGymnastics,
             competitorIds
         }));
-        if (id === 0) {
-            dispatch(setActiveContent(ActiveContent.COMPETITOR_LIST));
-            return;
-        }
-        dispatch(setActiveContent(ActiveContent.WORK_SPACE));
+        dispatch(setActiveContent(ActiveContent.EVENT_LIST));
     };
 
     return (

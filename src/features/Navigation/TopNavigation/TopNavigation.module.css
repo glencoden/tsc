@@ -1,0 +1,19 @@
+.TopNavigation {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: var(--top-navigation-height);
+    z-index: 10;
+    background-color: #fff;
+    box-shadow: var(--top-navigation-box-shadow);
+    overflow: hidden;
+}
+
+.TopNavigationStepper {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.TopNavigationSpacer {
+    height: var(--top-navigation-height);
+}

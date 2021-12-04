@@ -6,8 +6,7 @@ import { saveEvent, addCompetitorId, removeCompetitorId } from '../../Events/eve
 import { deleteCompetitor, editCompetitor, getCompetitors } from '../competitorsSlice';
 import { useListStyles } from '../../../app/styleHooks';
 import { selectActiveEvent } from '../../../app/selectors';
-import { isObject } from 'harbor-js';
-import { defaultValues } from '../../../app/lib/helpers';
+import { defaultValues, isObject } from '../../../app/lib/helpers';
 import useInterval from '../../../app/hooks/useInterval';
 
 const refreshTime = 15;
@@ -26,7 +25,8 @@ function CompetitorList() {
     const [ doSave, setDoSave ] = useState(false);
 
     const refresh = useCallback(() => dispatch(getCompetitors()), [ dispatch ]);
-    useInterval(refreshTime, refresh);
+    const getCompetitorsOnMount = !isObject(competitors) || Object.keys(competitors).length === 0; // only get competitors on mount if there's no current data set
+    useInterval(refreshTime, refresh, getCompetitorsOnMount);
 
     useEffect(() => {
         if (!isObject(competitors)) {

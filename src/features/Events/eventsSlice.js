@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { requestService } from 'harbor-js';
+import { requestService } from '../../services/requestService';
 import { Discipline, Group } from '../../app/lib/values';
 
 function getDraftEvent() {
