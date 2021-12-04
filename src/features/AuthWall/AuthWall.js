@@ -1,14 +1,26 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, TextField } from '@material-ui/core';
 import { requestService } from '../../services/requestService';
-
-const O_AUTH_2_USER_NAME = 'michi_mueller';
+import useInterval from '../../app/hooks/useInterval';
+import { O_AUTH_2_USER_NAME, TOKEN_EXPIRY_SAFETY_MARGIN } from '../../constants';
 
 
 function AuthWall() {
     const [ open, setOpen ] = useState(true);
     const [ password, setPassword ] = useState('');
     const [ errorText, setErrorText ] = useState('');
+
+    const validateAuth = useCallback(
+        () => {
+            if (requestService.isAuthTokenValid()) {
+                return
+            }
+            setOpen(true);
+        },
+        []
+    );
+
+    useInterval(TOKEN_EXPIRY_SAFETY_MARGIN / 2, validateAuth);
 
     const resetTextField = () => {
         setPassword('');
@@ -23,6 +35,7 @@ function AuthWall() {
                     return;
                 }
                 setOpen(false);
+                resetTextField();
             })
             .catch(() => {
                 setErrorText('Falsches Passwort');

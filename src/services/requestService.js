@@ -1,3 +1,5 @@
+import { TOKEN_EXPIRY_SAFETY_MARGIN } from '../constants';
+
 function encodeURI(data) {
     const formBody = [];
     for (const key in data) {
@@ -8,9 +10,11 @@ function encodeURI(data) {
     return formBody.join('&');
 }
 
+
 class RequestService {
     baseUrl = '';
     oAuth2_access_token = '';
+    tokenExpiryDate = null;
 
     constructor() {
         this.baseUrl = process.env.NODE_ENV === 'development'
@@ -65,10 +69,17 @@ class RequestService {
         return this.postEncodeURI(`${this.baseUrl}/auth/login`, { username, password, grant_type: 'password', client_id: null, client_secret: null })
             .then(resp => {
                 this.oAuth2_access_token = resp.access_token;
+                const expiryDate = new Date();
+                expiryDate.setSeconds(expiryDate.getSeconds() + resp.expires_in - TOKEN_EXPIRY_SAFETY_MARGIN);
+                this.tokenExpiryDate = expiryDate;
                 return {
                     success: true
                 };
             });
+    }
+
+    isAuthTokenValid() {
+        return new Date() < this.tokenExpiryDate;
     }
 }
 
