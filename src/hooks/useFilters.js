@@ -1,4 +1,4 @@
-import { useFilterStyles } from '../styleHooks';
+import { useFilterStyles } from '../styles/styleHooks';
 import { useEffect, useState } from 'react';
 import { Button, ButtonGroup } from '@material-ui/core';
 

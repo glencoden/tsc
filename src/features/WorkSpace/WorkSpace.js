@@ -1,17 +1,17 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Card, CardActions, CardContent, TextField, Typography } from '@material-ui/core';
-import { selectActiveEvent, selectActiveCompetitors, selectEventIdsForYear } from '../../app/selectors';
+import { selectActiveEvent, selectActiveCompetitors, selectEventIdsForYear } from '../../redux/selectors';
 import { getCompetitors, saveCompetitor, setResult, setWeight } from '../Competitors/competitorsSlice';
-import { useWorkSpaceStyles } from '../../app/styleHooks';
-import { getPoints } from '../../app/lib/points';
+import { useWorkSpaceStyles } from '../../styles/styleHooks';
+import { getPoints } from '../../util/points';
 import { getRanks } from './lib/util';
-import { defaultValues } from '../../app/lib/helpers';
-import { AgesPerGroup, Gender, Group, Exceptional } from '../../app/lib/values';
-import { getAge } from '../../app/lib/year';
-import { getWeight } from '../../app/lib/weights';
-import useFilters from '../../app/hooks/useFilters';
-import useInterval from '../../app/hooks/useInterval';
+import { defaultValues } from '../../util/helpers';
+import { AgesPerGroup, Gender, Group, Exceptional } from '../../util/values';
+import { getAge } from '../../util/year';
+import { getWeight } from '../../util/weights';
+import useFilters from '../../hooks/useFilters';
+import useInterval from '../../hooks/useInterval';
 import GymnasticsList from './GymnasticsList/GymnasticsList';
 import { requestService } from '../../services/requestService';
 

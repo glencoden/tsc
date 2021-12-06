@@ -1,4 +1,4 @@
-import { getCenterContentStyle } from '../../app/lib/getCenterContentStyle';
+import { getCenterContentStyle } from '../../util/getCenterContentStyle';
 import styles from './MainView.module.css';
 
 

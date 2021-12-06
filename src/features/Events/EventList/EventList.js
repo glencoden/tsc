@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Card, CardContent, CardActions, Typography, Button, IconButton } from '@material-ui/core';
 import { ActiveContent, setActiveContent } from '../../Navigation/navigationSlice';
 import { deleteEvent, setEventId, editEvent, getEvents } from '../eventsSlice';
-import { Exceptional } from '../../../app/lib/values';
-import { isObject } from '../../../app/lib/helpers';
-import { useListStyles } from '../../../app/styleHooks';
-import useInterval from '../../../app/hooks/useInterval';
+import { Exceptional } from '../../../util/values';
+import { isObject } from '../../../util/helpers';
+import { useListStyles } from '../../../styles/styleHooks';
+import useInterval from '../../../hooks/useInterval';
 
 const refreshTime = 15;
 

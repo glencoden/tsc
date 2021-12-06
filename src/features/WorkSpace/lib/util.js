@@ -1,6 +1,6 @@
-import { getPoints } from '../../../app/lib/points';
-import { AgesPerGroup, Gender, Group } from '../../../app/lib/values';
-import { getAge } from '../../../app/lib/year';
+import { getPoints } from '../../../util/points';
+import { AgesPerGroup, Gender, Group } from '../../../util/values';
+import { getAge } from '../../../util/year';
 
 function addRanks(competitors, eventId) {
     const eventIds = Array.isArray(eventId) ? eventId : [ eventId ];

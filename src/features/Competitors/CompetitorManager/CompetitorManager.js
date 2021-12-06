@@ -10,9 +10,9 @@ import {
     saveCompetitor
 } from '../competitorsSlice';
 import { ActiveContent, setActiveContent } from '../../Navigation/navigationSlice';
-import { Gender, Ages } from '../../../app/lib/values';
-import { getBirthYear } from '../../../app/lib/year';
-import { useManagerStyles } from '../../../app/styleHooks';
+import { Gender, Ages } from '../../../util/values';
+import { getBirthYear } from '../../../util/year';
+import { useManagerStyles } from '../../../styles/styleHooks';
 import { parseCommaSeparation } from '../../Events/EventManager/util';
 
 const marginProp = 'dense';

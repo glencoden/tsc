@@ -24,9 +24,9 @@ import {
     toggleFinal
 } from '../eventsSlice';
 import { ActiveContent, setActiveContent } from '../../Navigation/navigationSlice';
-import { AgesPerGroup, Exceptional } from '../../../app/lib/values';
-import { getBirthYear } from '../../../app/lib/year';
-import { useManagerStyles } from '../../../app/styleHooks';
+import { AgesPerGroup, Exceptional } from '../../../util/values';
+import { getBirthYear } from '../../../util/year';
+import { useManagerStyles } from '../../../styles/styleHooks';
 import { parseCommaSeparation } from './util';
 
 const marginProp = 'dense';

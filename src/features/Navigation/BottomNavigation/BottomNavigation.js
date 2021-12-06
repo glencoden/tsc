@@ -6,7 +6,7 @@ import { SpeedDial, SpeedDialIcon, SpeedDialAction } from '@material-ui/lab';
 import { ActiveContent, setActiveContent } from '../navigationSlice';
 import { saveCompetitor } from '../../Competitors/competitorsSlice';
 import { fetchPrint, PrintActionTypes } from '../../WorkSpace/WorkSpace';
-import { getCenterContentStyle } from '../../../app/lib/getCenterContentStyle';
+import { getCenterContentStyle } from '../../../util/getCenterContentStyle';
 
 const actions = [
     {

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../services/requestService';
-import { Discipline, Group } from '../../app/lib/values';
+import { Discipline, Group } from '../../util/values';
 
 function getDraftEvent() {
     return {

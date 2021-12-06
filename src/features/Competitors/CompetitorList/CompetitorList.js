@@ -4,10 +4,10 @@ import { Card, CardContent, CardActions, Typography, Button, IconButton } from '
 import { ActiveContent, setActiveContent } from '../../Navigation/navigationSlice';
 import { saveEvent, addCompetitorId, removeCompetitorId } from '../../Events/eventsSlice';
 import { deleteCompetitor, editCompetitor, getCompetitors } from '../competitorsSlice';
-import { useListStyles } from '../../../app/styleHooks';
-import { selectActiveEvent } from '../../../app/selectors';
-import { defaultValues, isObject } from '../../../app/lib/helpers';
-import useInterval from '../../../app/hooks/useInterval';
+import { useListStyles } from '../../../styles/styleHooks';
+import { selectActiveEvent } from '../../../redux/selectors';
+import { defaultValues, isObject } from '../../../util/helpers';
+import useInterval from '../../../hooks/useInterval';
 
 const refreshTime = 15;
 
