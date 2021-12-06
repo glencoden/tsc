@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../services/requestService';
-import { Gender } from '../../util/values';
+import { Gender } from '../../competition-logic/values';
 
 function getDraftCompetitor() {
     return {

@@ -4,16 +4,17 @@ import { Button, Card, CardActions, CardContent, TextField, Typography } from '@
 import { selectActiveEvent, selectActiveCompetitors, selectEventIdsForYear } from '../../redux/selectors';
 import { getCompetitors, saveCompetitor, setResult, setWeight } from '../Competitors/competitorsSlice';
 import { useWorkSpaceStyles } from '../../styles/styleHooks';
-import { getPoints } from '../../util/points';
+import { getPoints } from '../../competition-logic/points';
 import { getRanks } from './lib/util';
 import { defaultValues } from '../../util/helpers';
-import { AgesPerGroup, Gender, Group, Exceptional } from '../../util/values';
-import { getAge } from '../../util/year';
-import { getWeight } from '../../util/weights';
+import { AgesPerGroup, Gender, Group, Exceptional } from '../../competition-logic/values';
+import { getAge } from '../../competition-logic/year';
+import { getWeight } from '../../competition-logic/weights';
 import useFilters from '../../hooks/useFilters';
 import useInterval from '../../hooks/useInterval';
 import GymnasticsList from './GymnasticsList/GymnasticsList';
 import { requestService } from '../../services/requestService';
+import { MUI_INPUT_MARGIN, WORK_SPACE_SYNCH_INTERVAL } from '../../constants';
 
 export const PrintActionTypes = {
     CERTIFICATES: 'certificates',
@@ -64,9 +65,6 @@ const filters = [
     }
 ];
 
-const inputMargin = 'dense';
-const syncTime = 5;
-
 
 function WorkSpace() {
     const dispatch = useDispatch();
@@ -83,7 +81,7 @@ function WorkSpace() {
     const competitorIds = activeEvent?.competitorIds || defaultValues.ARRAY;
     const sync = useCallback(() => dispatch(getCompetitors(competitorIds.filter(id => id !== activeCompetitorId))), [ dispatch, activeCompetitorId, competitorIds ]);
 
-    useInterval(syncTime, sync);
+    useInterval(WORK_SPACE_SYNCH_INTERVAL, sync);
 
     useEffect(() => {
         if (!Array.isArray(competitors)) {
@@ -175,7 +173,7 @@ function WorkSpace() {
                                                             discipline,
                                                             result: event.target.value
                                                         }))}
-                                                        margin={inputMargin}
+                                                        margin={MUI_INPUT_MARGIN}
                                                     />
                                                     <span className={`material-icons ${classes.editorIcon}`}>
                                                         play_arrow

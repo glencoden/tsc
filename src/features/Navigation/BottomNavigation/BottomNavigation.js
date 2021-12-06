@@ -7,6 +7,7 @@ import { ActiveContent, setActiveContent } from '../navigationSlice';
 import { saveCompetitor } from '../../Competitors/competitorsSlice';
 import { fetchPrint, PrintActionTypes } from '../../WorkSpace/WorkSpace';
 import { getCenterContentStyle } from '../../../util/getCenterContentStyle';
+import { MOBILE_BREAKPOINT } from '../../../constants';
 
 const actions = [
     {
@@ -78,7 +79,7 @@ function BottomNavigation() {
                         </span>
                     </Fab>
                 )}
-                {activeContent === ActiveContent.WORK_SPACE && window.innerWidth > 576 && (
+                {activeContent === ActiveContent.WORK_SPACE && window.innerWidth > MOBILE_BREAKPOINT && (
                     <SpeedDial
                         ariaLabel="SpeedDial example"
                         hidden={false}

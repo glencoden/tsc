@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../services/requestService';
-import { Discipline, Group } from '../../util/values';
+import { Discipline, Group } from '../../competition-logic/values';
 
 function getDraftEvent() {
     return {

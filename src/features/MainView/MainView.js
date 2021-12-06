@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
 import { getCenterContentStyle } from '../../util/getCenterContentStyle';
 import styles from './MainView.module.css';
 
 
 function MainView({ children }) {
+    useEffect(() => {
+        window.scroll(0, 0);
+    }, [ children ]);
+
     return (
         <div
             className={styles.MainView}

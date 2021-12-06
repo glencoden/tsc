@@ -3,12 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Card, CardContent, CardActions, Typography, Button, IconButton } from '@material-ui/core';
 import { ActiveContent, setActiveContent } from '../../Navigation/navigationSlice';
 import { deleteEvent, setEventId, editEvent, getEvents } from '../eventsSlice';
-import { Exceptional } from '../../../util/values';
+import { Exceptional } from '../../../competition-logic/values';
 import { isObject } from '../../../util/helpers';
 import { useListStyles } from '../../../styles/styleHooks';
 import useInterval from '../../../hooks/useInterval';
-
-const refreshTime = 15;
+import { EVENT_LIST_REFRESH_INTERVAL } from '../../../constants';
 
 
 function EventList() {
@@ -22,14 +21,14 @@ function EventList() {
 
     const refresh = useCallback(() => dispatch(getEvents()), [ dispatch ]);
     const getEventsOnMount = !isObject(events) || Object.keys(events).length === 0;  // only get events on mount if there's no current data set
-    useInterval(refreshTime, refresh, getEventsOnMount);
+    useInterval(EVENT_LIST_REFRESH_INTERVAL, refresh, getEventsOnMount);
 
     useEffect(() => {
         if (!isObject(events)) {
             return;
         }
         setEventList(
-            Object.values(events).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+            Object.values(events).sort((a, b) => new Date(a.date) - new Date(b.date))
         );
     }, [ events ]);
 
@@ -39,13 +38,17 @@ function EventList() {
         dispatch(setActiveContent(ActiveContent.EVENT_MANAGER));
     }
 
+    if (!eventList.length) {
+        return null;
+    }
+
     return (
         <div>
-            {!!eventList.length && eventList.map((event, i) => {
+            {eventList.map((event, index) => {
                 const active = event.id === activeEventId;
                 return (
                     <Card
-                        key={i}
+                        key={event.id}
                         className={`${classes.card} ${active && classes.cardActive}`}
                         elevation={3}
                         onClick={() => dispatch(setEventId(event.id))}
@@ -67,7 +70,7 @@ function EventList() {
                                     </Typography>
                                 </div>
                                 <CardActions className={classes.cardActions}>
-                                    {deleteIndex === i ? (
+                                    {deleteIndex === index ? (
                                         <>
                                             <IconButton
                                                 className={active ? classes.contrastText : ''}
@@ -102,7 +105,7 @@ function EventList() {
                                                 className={active ? classes.contrastText : ''}
                                                 onClick={e => {
                                                     e.stopPropagation();
-                                                    setDeleteIndex(i);
+                                                    setDeleteIndex(index);
                                                 }}
                                             >
                                                 <span className="material-icons">delete</span>

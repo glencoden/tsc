@@ -24,12 +24,11 @@ import {
     toggleFinal
 } from '../eventsSlice';
 import { ActiveContent, setActiveContent } from '../../Navigation/navigationSlice';
-import { AgesPerGroup, Exceptional } from '../../../util/values';
-import { getBirthYear } from '../../../util/year';
+import { AgesPerGroup, Exceptional } from '../../../competition-logic/values';
+import { getBirthYear } from '../../../competition-logic/year';
 import { useManagerStyles } from '../../../styles/styleHooks';
 import { parseCommaSeparation } from './util';
-
-const marginProp = 'dense';
+import { MUI_INPUT_MARGIN } from '../../../constants';
 
 
 function EventManager() {
@@ -50,10 +49,8 @@ function EventManager() {
     useEffect(() => () => dispatch(resetEvents()), [ dispatch ]);
 
     const saveAndExit = () => {
-        const parsedGymnastics = {};
-        Object.keys(gymnastics).forEach(key => {
-            parsedGymnastics[key] = parseCommaSeparation(gymnastics[key]);
-        });
+        const parsedGymnastics = Object.keys(gymnastics)
+            .reduce((result, key) => ({ ...result, [key]: parseCommaSeparation(gymnastics[key]) }), {});
         dispatch(saveEvent({
             id,
             name,
@@ -89,7 +86,7 @@ function EventManager() {
                             variant="filled"
                             value={name}
                             onChange={event => dispatch(setName(event.target.value))}
-                            margin={marginProp}
+                            margin={MUI_INPUT_MARGIN}
                             fullWidth
                         />
                         <FormControlLabel
@@ -114,7 +111,7 @@ function EventManager() {
                             variant="filled"
                             value={date}
                             onChange={event => dispatch(setDate(event.target.value))}
-                            margin={marginProp}
+                            margin={MUI_INPUT_MARGIN}
                             fullWidth
                         />
                         <div className={classes.spacer} />
@@ -125,7 +122,7 @@ function EventManager() {
                             variant="filled"
                             value={start}
                             onChange={event => dispatch(setStart(event.target.value))}
-                            margin={marginProp}
+                            margin={MUI_INPUT_MARGIN}
                             fullWidth
                             inputProps={{
                                 step: 300, // 5 min
@@ -139,7 +136,7 @@ function EventManager() {
                             variant="filled"
                             value={place}
                             onChange={event => dispatch(setPlace(event.target.value))}
-                            margin={marginProp}
+                            margin={MUI_INPUT_MARGIN}
                             fullWidth
                         />
                         <div className={classes.spacer} />
@@ -149,7 +146,7 @@ function EventManager() {
                             variant="filled"
                             value={host}
                             onChange={event => dispatch(setHost(event.target.value))}
-                            margin={marginProp}
+                            margin={MUI_INPUT_MARGIN}
                             fullWidth
                         />
                     </div>
@@ -184,7 +181,7 @@ function EventManager() {
                                     variant="outlined"
                                     value={gymnastics[key]}
                                     onChange={event => dispatch(setGymnastics({ group: key, gymnastics: event.target.value }))}
-                                    margin={marginProp}
+                                    margin={MUI_INPUT_MARGIN}
                                     fullWidth
                                 />
                             </div>

@@ -10,12 +10,11 @@ import {
     saveCompetitor
 } from '../competitorsSlice';
 import { ActiveContent, setActiveContent } from '../../Navigation/navigationSlice';
-import { Gender, Ages } from '../../../util/values';
-import { getBirthYear } from '../../../util/year';
+import { Gender, Ages } from '../../../competition-logic/values';
+import { getBirthYear } from '../../../competition-logic/year';
 import { useManagerStyles } from '../../../styles/styleHooks';
 import { parseCommaSeparation } from '../../Events/EventManager/util';
-
-const marginProp = 'dense';
+import { MUI_INPUT_MARGIN } from '../../../constants';
 
 
 function CompetitorManager() {
@@ -64,7 +63,7 @@ function CompetitorManager() {
                         variant="filled"
                         value={name}
                         onChange={event => dispatch(setName(event.target.value))}
-                        margin={marginProp}
+                        margin={MUI_INPUT_MARGIN}
                         fullWidth
                     />
                     <TextField
@@ -73,11 +72,11 @@ function CompetitorManager() {
                         variant="filled"
                         value={club}
                         onChange={event => dispatch(setClub(event.target.value))}
-                        margin={marginProp}
+                        margin={MUI_INPUT_MARGIN}
                         fullWidth
                     />
                     <div className={classes.gridRow}>
-                        <FormControl margin={marginProp}>
+                        <FormControl margin={MUI_INPUT_MARGIN}>
                             <InputLabel id="demo-simple-select-label-gender">Geschlecht</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label-gender"
@@ -90,7 +89,7 @@ function CompetitorManager() {
                                 ))}
                             </Select>
                         </FormControl>
-                        <FormControl margin={marginProp}>
+                        <FormControl margin={MUI_INPUT_MARGIN}>
                             <InputLabel id="demo-simple-select-label-year">Jahrgang</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label-year"

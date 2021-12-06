@@ -8,8 +8,7 @@ import { useListStyles } from '../../../styles/styleHooks';
 import { selectActiveEvent } from '../../../redux/selectors';
 import { defaultValues, isObject } from '../../../util/helpers';
 import useInterval from '../../../hooks/useInterval';
-
-const refreshTime = 15;
+import { COMPETITOR_LIST_REFRESH_INTERVAL } from '../../../constants';
 
 
 function CompetitorList() {
@@ -26,7 +25,7 @@ function CompetitorList() {
 
     const refresh = useCallback(() => dispatch(getCompetitors()), [ dispatch ]);
     const getCompetitorsOnMount = !isObject(competitors) || Object.keys(competitors).length === 0; // only get competitors on mount if there's no current data set
-    useInterval(refreshTime, refresh, getCompetitorsOnMount);
+    useInterval(COMPETITOR_LIST_REFRESH_INTERVAL, refresh, getCompetitorsOnMount);
 
     useEffect(() => {
         if (!isObject(competitors)) {
@@ -45,14 +44,18 @@ function CompetitorList() {
         setDoSave(false);
     }, [ dispatch, activeEvent, doSave ]);
 
+    if (!competitorList.length) {
+        return null;
+    }
+
     return (
         <div>
-            {!!competitorList.length && competitorList.map((competitor, i) => {
+            {competitorList.map((competitor, index) => {
                 const noActiveEvent = !activeEvent.id;
                 const selected = selectedCompetitorIds.includes(competitor.id);
                 return (
                     <Card
-                        key={i}
+                        key={competitor.id}
                         className={`${classes.card} ${selected && classes.cardActive}`}
                         elevation={3}
                         onClick={() => {
@@ -74,7 +77,7 @@ function CompetitorList() {
                                     </Typography>
                                 </div>
                                 <CardActions className={classes.cardActions}>
-                                    {deleteIndex === i ? (
+                                    {deleteIndex === index ? (
                                         <>
                                             <IconButton
                                                 className={selected ? classes.contrastText : ''}
@@ -113,7 +116,7 @@ function CompetitorList() {
                                                 className={selected ? classes.contrastText : ''}
                                                 onClick={e => {
                                                     e.stopPropagation();
-                                                    setDeleteIndex(i);
+                                                    setDeleteIndex(index);
                                                 }}
                                             >
                                                 <span className="material-icons">delete</span>
