@@ -88,24 +88,30 @@ class RequestService {
     }
 
     fetchPrint(type, competitorsForPrint) {
-        const body = {};
+        const data = {};
         let url;
         switch (type) {
             case PrintActionTypes.CERTIFICATES:
-                body.competitors = competitorsForPrint;
+                data.competitors = competitorsForPrint;
                 url = `${this.baseUrl}/tsc/print_certificates`;
                 break;
             case PrintActionTypes.PROTOCOL:
-                body.competitors = competitorsForPrint;
+                data.competitors = competitorsForPrint;
                 url = `${this.baseUrl}/tsc/print_protocol`;
                 break;
             default:
         }
-        fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            body: JSON.stringify(body)
-        })
+        const headers = {'Content-Type': 'application/json; charset=utf-8'};
+        if (this.oAuth2_access_token) {
+            headers.Authorization = `Bearer ${this.oAuth2_access_token}`;
+        }
+        Promise.resolve()
+            .then(() => JSON.stringify(data))
+            .then(body => fetch(url, {
+                method: 'POST',
+                headers,
+                body
+            }))
             .then(response => response.blob())
             .then(blob => {
                 const url = URL.createObjectURL(new Blob([ blob ], { type: 'application/pdf' }));
