@@ -1,5 +1,10 @@
 import { TOKEN_EXPIRY_SAFETY_MARGIN } from '../constants';
 
+export const PrintActionTypes = {
+    CERTIFICATES: 'certificates',
+    PROTOCOL: 'protocol'
+};
+
 function encodeURI(data) {
     const formBody = [];
     for (const key in data) {
@@ -80,6 +85,37 @@ class RequestService {
 
     isAuthTokenValid() {
         return new Date() < this.tokenExpiryDate;
+    }
+
+    fetchPrint(type, competitorsForPrint) {
+        const body = {};
+        let url;
+        switch (type) {
+            case PrintActionTypes.CERTIFICATES:
+                body.competitors = competitorsForPrint;
+                url = `${this.baseUrl}/tsc/print_certificates`;
+                break;
+            case PrintActionTypes.PROTOCOL:
+                body.competitors = competitorsForPrint;
+                url = `${this.baseUrl}/tsc/print_protocol`;
+                break;
+            default:
+        }
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify(body)
+        })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = URL.createObjectURL(new Blob([ blob ], { type: 'application/pdf' }));
+                const a = document.createElement('a');
+                a.href = url;
+                a.target = '_blank';
+                a.click();
+                setTimeout(() => URL.revokeObjectURL(url), 100);
+            })
+            .catch(err => console.error(err));
     }
 }
 

@@ -14,7 +14,7 @@ import { Gender, Ages } from '../../../competition-logic/values';
 import { getBirthYear } from '../../../competition-logic/year';
 import { useManagerStyles } from '../../../styles/styleHooks';
 import { parseCommaSeparation } from '../../Events/EventManager/util';
-import { MUI_INPUT_MARGIN } from '../../../constants';
+import { MUI_INPUT_FIELD_MARGIN } from '../../../constants';
 
 
 function CompetitorManager() {
@@ -63,7 +63,7 @@ function CompetitorManager() {
                         variant="filled"
                         value={name}
                         onChange={event => dispatch(setName(event.target.value))}
-                        margin={MUI_INPUT_MARGIN}
+                        margin={MUI_INPUT_FIELD_MARGIN}
                         fullWidth
                     />
                     <TextField
@@ -72,11 +72,11 @@ function CompetitorManager() {
                         variant="filled"
                         value={club}
                         onChange={event => dispatch(setClub(event.target.value))}
-                        margin={MUI_INPUT_MARGIN}
+                        margin={MUI_INPUT_FIELD_MARGIN}
                         fullWidth
                     />
                     <div className={classes.gridRow}>
-                        <FormControl margin={MUI_INPUT_MARGIN}>
+                        <FormControl margin={MUI_INPUT_FIELD_MARGIN}>
                             <InputLabel id="demo-simple-select-label-gender">Geschlecht</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label-gender"
@@ -89,7 +89,7 @@ function CompetitorManager() {
                                 ))}
                             </Select>
                         </FormControl>
-                        <FormControl margin={MUI_INPUT_MARGIN}>
+                        <FormControl margin={MUI_INPUT_FIELD_MARGIN}>
                             <InputLabel id="demo-simple-select-label-year">Jahrgang</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label-year"

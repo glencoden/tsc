@@ -2,7 +2,7 @@
 export const MAX_CONTENT_WIDTH = 640; // px
 export const CONTENT_WIDTH_FROM_VW = 0.95; // percent
 export const MOBILE_BREAKPOINT = 576; // px
-export const MUI_INPUT_MARGIN = 'dense'; // mui native property
+export const MUI_INPUT_FIELD_MARGIN = 'dense'; // mui native property
 
 // timing
 export const EVENT_LIST_REFRESH_INTERVAL = 15; // seconds

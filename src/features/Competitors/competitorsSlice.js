@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { requestService } from '../../services/requestService';
 import { Gender } from '../../competition-logic/values';
+import { getRanks } from '../WorkSpace/lib/util';
 
 function getDraftCompetitor() {
     return {
@@ -39,6 +40,7 @@ export const competitorsSlice = createSlice({
     name: 'competitors',
     initialState: {
         all: {},
+        rankedList: [],
         draft: getDraftCompetitor()
     },
     reducers: {
@@ -84,6 +86,11 @@ export const competitorsSlice = createSlice({
                 state.all[action.payload.competitorId].results[action.payload.eventId] = {};
             }
             state.all[action.payload.competitorId].results[action.payload.eventId][action.payload.discipline] = action.payload.result;
+        },
+        setRanked: (state, action) => {
+            const { competitors, eventIds } = action.payload;
+            state.rankedList = getRanks(competitors, eventIds)
+                .sort((a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0));
         }
     },
     extraReducers: {
@@ -120,7 +127,8 @@ export const {
     setYear,
     setWeight,
     setClub,
-    setResult
+    setResult,
+    setRanked
 } = competitorsSlice.actions;
 
 export default competitorsSlice.reducer;
