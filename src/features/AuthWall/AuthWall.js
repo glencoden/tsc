@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, TextField } from '@material-ui/core';
 import { requestService } from '../../services/requestService';
-import useInterval from '../../app/hooks/useInterval';
+import useInterval from '../../hooks/useInterval';
 import { O_AUTH_2_USER_NAME, TOKEN_EXPIRY_SAFETY_MARGIN } from '../../constants';
 
 

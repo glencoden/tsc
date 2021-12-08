@@ -5,10 +5,11 @@ import { Fab } from '@material-ui/core';
 import { SpeedDial, SpeedDialIcon, SpeedDialAction } from '@material-ui/lab';
 import { ActiveContent, setActiveContent } from '../navigationSlice';
 import { saveCompetitor } from '../../Competitors/competitorsSlice';
-import { fetchPrint, PrintActionTypes } from '../../WorkSpace/WorkSpace';
-import { getCenterContentStyle } from '../../../app/lib/getCenterContentStyle';
+import { getCenterContentStyle } from '../../../util/getCenterContentStyle';
+import { MOBILE_BREAKPOINT } from '../../../constants';
+import { PrintActionTypes, requestService } from '../../../services/requestService';
 
-const actions = [
+const speedDialActions = [
     {
         icon: <span className="material-icons">event_note</span>,
         name: 'Protokoll',
@@ -25,6 +26,7 @@ const actions = [
 function BottomNavigation() {
     const dispatch = useDispatch();
     const activeContent = useSelector(state => state.navigation.activeContent);
+    const rankedCompetitorList = useSelector(state => state.competitors.rankedList);
 
     const [ speedDialOpen, setSpeedDialOpen ] = useState(false);
 
@@ -78,7 +80,7 @@ function BottomNavigation() {
                         </span>
                     </Fab>
                 )}
-                {activeContent === ActiveContent.WORK_SPACE && window.innerWidth > 576 && (
+                {activeContent === ActiveContent.WORK_SPACE && window.innerWidth > MOBILE_BREAKPOINT && (
                     <SpeedDial
                         ariaLabel="SpeedDial example"
                         hidden={false}
@@ -88,13 +90,13 @@ function BottomNavigation() {
                         open={speedDialOpen}
                         direction="up"
                     >
-                        {actions.map(action => (
+                        {speedDialActions.map(action => (
                             <SpeedDialAction
                                 key={action.name}
                                 icon={action.icon}
                                 tooltipTitle={action.name}
                                 onClick={() => {
-                                    fetchPrint(action.type);
+                                    requestService.fetchPrint(action.type, rankedCompetitorList);
                                     setSpeedDialOpen(false);
                                 }}
                             />

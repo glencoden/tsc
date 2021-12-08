@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ActiveContent } from './features/Navigation/navigationSlice';
-import { selectActiveEvent } from './app/selectors';
+import { selectActiveEvent } from './redux/selectors';
 
 import AuthWall from './features/AuthWall/AuthWall';
 import TopNavigation from './features/Navigation/TopNavigation/TopNavigation';

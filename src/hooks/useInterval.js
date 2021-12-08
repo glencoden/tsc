@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 
 function useInterval(interval, cb, invokeInitially = true) {
     const [ active, setActive ] = useState(true);
-    const idRef = useRef({ id: 0 });
+    const idRef = useRef(0);
 
     useEffect(() => {
         if (!active) {
@@ -11,12 +11,14 @@ function useInterval(interval, cb, invokeInitially = true) {
         }
         const req = () => {
             cb();
-            idRef.current.id = setTimeout(() => req(), interval * 1000);
+            idRef.current = setTimeout(() => req(), interval * 1000);
         };
         if (invokeInitially) {
             req();
+        } else {
+            idRef.current = setTimeout(() => req(), interval * 1000);
         }
-        return () => clearTimeout(idRef.current.id);
+        return () => clearTimeout(idRef.current);
     }, [ active, interval, cb, invokeInitially ]);
 
     return [ active, setActive ];

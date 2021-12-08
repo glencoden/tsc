@@ -1,57 +1,18 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Card, CardActions, CardContent, TextField, Typography } from '@material-ui/core';
-import { selectActiveEvent, selectActiveCompetitors, selectEventIdsForYear } from '../../app/selectors';
-import { getCompetitors, saveCompetitor, setResult, setWeight } from '../Competitors/competitorsSlice';
-import { useWorkSpaceStyles } from '../../app/styleHooks';
-import { getPoints } from '../../app/lib/points';
-import { getRanks } from './lib/util';
-import { defaultValues } from '../../app/lib/helpers';
-import { AgesPerGroup, Gender, Group, Exceptional } from '../../app/lib/values';
-import { getAge } from '../../app/lib/year';
-import { getWeight } from '../../app/lib/weights';
-import useFilters from '../../app/hooks/useFilters';
-import useInterval from '../../app/hooks/useInterval';
+import { selectActiveEvent, selectActiveCompetitors, selectEventIdsForYear } from '../../redux/selectors';
+import { getCompetitors, saveCompetitor, setResult, setWeight, setRanked } from '../Competitors/competitorsSlice';
+import { useWorkSpaceStyles } from '../../styles/styleHooks';
+import { getPoints } from '../../competition-logic/points';
+import { defaultValues } from '../../util/helpers';
+import { AgesPerGroup, Gender, Group, Exceptional } from '../../competition-logic/values';
+import { getAge } from '../../competition-logic/year';
+import { getWeight } from '../../competition-logic/weights';
+import useFilters from '../../hooks/useFilters';
+import useInterval from '../../hooks/useInterval';
 import GymnasticsList from './GymnasticsList/GymnasticsList';
-import { requestService } from '../../services/requestService';
-
-export const PrintActionTypes = {
-    CERTIFICATES: 'certificates',
-    PROTOCOL: 'protocol'
-};
-
-let competitorsForPrint = [];
-
-export function fetchPrint(type) {
-    const body = {};
-    let url;
-    switch (type) {
-        case PrintActionTypes.CERTIFICATES:
-            body.competitors = competitorsForPrint;
-            url = `${requestService.baseUrl}/tsc/print_certificates`;
-            break;
-        case PrintActionTypes.PROTOCOL:
-            body.competitors = competitorsForPrint;
-            url = `${requestService.baseUrl}/tsc/print_protocol`;
-            break;
-        default:
-    }
-    fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
-        body: JSON.stringify(body)
-    })
-        .then(response => response.blob())
-        .then(blob => {
-            const url = URL.createObjectURL(new Blob([ blob ], { type: 'application/pdf' }));
-            const a = document.createElement('a');
-            a.href = url;
-            a.target = '_blank';
-            a.click();
-            setTimeout(() => URL.revokeObjectURL(url), 100);
-        })
-        .catch(err => console.error(err));
-}
+import { MUI_INPUT_FIELD_MARGIN, WORK_SPACE_SYNCH_INTERVAL } from '../../constants';
 
 const filters = [
     {
@@ -64,18 +25,19 @@ const filters = [
     }
 ];
 
-const inputMargin = 'dense';
-const syncTime = 5;
-
 
 function WorkSpace() {
     const dispatch = useDispatch();
-    const activeEvent = useSelector(selectActiveEvent);
+
     const competitors = useSelector(selectActiveCompetitors);
+    const rankedCompetitorList = useSelector(state => state.competitors.rankedList);
+
+    const activeEvent = useSelector(selectActiveEvent);
     const eventIdsForYear = useSelector(selectEventIdsForYear);
+    const eventIds = activeEvent.final ? eventIdsForYear : activeEvent.id;
+
     const classes = useWorkSpaceStyles();
 
-    const [ competitorList, setCompetitorList ] = useState([]);
     const [ activeCompetitorId, setActiveCompetitorId ] = useState(0);
 
     const [ filterCallback, FilterComponent ] = useFilters(filters);
@@ -83,18 +45,11 @@ function WorkSpace() {
     const competitorIds = activeEvent?.competitorIds || defaultValues.ARRAY;
     const sync = useCallback(() => dispatch(getCompetitors(competitorIds.filter(id => id !== activeCompetitorId))), [ dispatch, activeCompetitorId, competitorIds ]);
 
-    useInterval(syncTime, sync);
+    useInterval(WORK_SPACE_SYNCH_INTERVAL, sync);
 
     useEffect(() => {
-        if (!Array.isArray(competitors)) {
-            return;
-        }
-        const curCompetitorList = getRanks(competitors, activeEvent.final ? eventIdsForYear : activeEvent.id)
-            .sort((a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0));
-        setCompetitorList(curCompetitorList);
-    }, [ activeEvent.id, competitors, activeEvent.final ]); // eventIdsForYear will be the same unless usage around new year
-
-    competitorsForPrint = competitorList;
+        dispatch(setRanked({ competitors, eventIds }));
+    }, [ Object.keys(competitors).length ]); // eventIds will be the same unless usage around new year
 
     if (!activeEvent.id) {
         return null;
@@ -103,7 +58,7 @@ function WorkSpace() {
     return (
         <div>
             <FilterComponent />
-            {!!competitorList.length && competitorList.filter(filterCallback).map((competitor, i) => {
+            {!!rankedCompetitorList.length && rankedCompetitorList.filter(filterCallback).map((competitor, i) => {
                 const active = activeCompetitorId === competitor.id;
                 return (
                     <Card
@@ -175,7 +130,7 @@ function WorkSpace() {
                                                             discipline,
                                                             result: event.target.value
                                                         }))}
-                                                        margin={inputMargin}
+                                                        margin={MUI_INPUT_FIELD_MARGIN}
                                                     />
                                                     <span className={`material-icons ${classes.editorIcon}`}>
                                                         play_arrow

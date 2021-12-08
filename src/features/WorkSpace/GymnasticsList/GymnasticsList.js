@@ -1,10 +1,10 @@
 import { useDispatch } from 'react-redux';
-import { useWorkSpaceStyles } from '../../../app/styleHooks';
-import { AgesPerGroup, Exceptional, Group } from '../../../app/lib/values';
-import { getAge } from '../../../app/lib/year';
+import { useWorkSpaceStyles } from '../../../styles/styleHooks';
+import { AgesPerGroup, Exceptional, Group } from '../../../competition-logic/values';
+import { getAge } from '../../../competition-logic/year';
 import { useEffect, useState } from 'react';
 import { setResult } from '../../Competitors/competitorsSlice';
-import { getPoints } from '../../../app/lib/points';
+import { getPoints } from '../../../competition-logic/points';
 import { FormControl, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
 
 
