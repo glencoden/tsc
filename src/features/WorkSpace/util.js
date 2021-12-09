@@ -1,6 +1,6 @@
-import { getPoints } from '../../../competition-logic/points';
-import { AgesPerGroup, Gender, Group } from '../../../competition-logic/values';
-import { getAge } from '../../../competition-logic/year';
+import { getPoints } from '../../competition-logic/points';
+import { AgesPerGroup, Gender, Group } from '../../competition-logic/values';
+import { getAge } from '../../competition-logic/year';
 
 function addRanks(competitors, eventId) {
     const eventIds = Array.isArray(eventId) ? eventId : [ eventId ];

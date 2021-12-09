@@ -1,18 +1,18 @@
-import { useFilterStyles } from '../styles/styleHooks';
 import { useEffect, useState } from 'react';
 import { Button, ButtonGroup } from '@material-ui/core';
+import { useFilterStyles } from '../../../styles/styleHooks';
 
-function useFilters(filters) {
+
+function ListFilters({ filters, setFilter }) {
     const classes = useFilterStyles();
 
-    const [ filterCallback, setFilterCallback ] = useState(() => () => true);
     const [ filterList, setFilterList ] = useState([]);
 
     useEffect(() => {
-        setFilterCallback(() => element => filterList.every(fn => typeof fn === 'function' ? fn(element) : true));
-    }, [ filterList, setFilterCallback ]);
+        setFilter(() => element => filterList.every(fn => typeof fn === 'function' ? fn(element) : true));
+    }, [ filterList, setFilter ]);
 
-    const FilterComponent = () => (
+    return (
         <div className={classes.filter}>
             {filters.map((filterGroup, i) => {
                 return (
@@ -46,8 +46,6 @@ function useFilters(filters) {
             })}
         </div>
     );
-
-    return [ filterCallback, FilterComponent ];
 }
 
-export default useFilters;
+export default ListFilters;

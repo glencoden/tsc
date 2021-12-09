@@ -9,8 +9,8 @@ import { defaultValues } from '../../util/helpers';
 import { AgesPerGroup, Gender, Group, Exceptional } from '../../competition-logic/values';
 import { getAge } from '../../competition-logic/year';
 import { getWeight } from '../../competition-logic/weights';
-import useFilters from '../../hooks/useFilters';
 import useInterval from '../../hooks/useInterval';
+import ListFilters from './ListFilters/ListFilters';
 import GymnasticsList from './GymnasticsList/GymnasticsList';
 import { MUI_INPUT_FIELD_MARGIN, WORK_SPACE_SYNCH_INTERVAL } from '../../constants';
 
@@ -39,8 +39,7 @@ function WorkSpace() {
     const classes = useWorkSpaceStyles();
 
     const [ activeCompetitorId, setActiveCompetitorId ] = useState(0);
-
-    const [ filterCallback, FilterComponent ] = useFilters(filters);
+    const [ filter, setFilter ] = useState(() => () => true);
 
     const competitorIds = activeEvent?.competitorIds || defaultValues.ARRAY;
     const sync = useCallback(() => dispatch(getCompetitors(competitorIds.filter(id => id !== activeCompetitorId))), [ dispatch, activeCompetitorId, competitorIds ]);
@@ -57,8 +56,11 @@ function WorkSpace() {
 
     return (
         <div>
-            <FilterComponent />
-            {!!rankedCompetitorList.length && rankedCompetitorList.filter(filterCallback).map((competitor, i) => {
+            <ListFilters
+                filters={filters}
+                setFilter={setFilter}
+            />
+            {!!rankedCompetitorList.length && rankedCompetitorList.filter(filter).map((competitor, i) => {
                 const active = activeCompetitorId === competitor.id;
                 return (
                     <Card
