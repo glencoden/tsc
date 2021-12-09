@@ -20,24 +20,29 @@ function getDraftEvent() {
     };
 }
 
+const eventsEndpoint = '/tsc/events';
+
 export const getEvents = createAsyncThunk(
     'events/getEvents',
-    async ids => {
-        return await requestService.post(`${requestService.baseUrl}/tsc/get_events`, ids);
+    async () => {
+        return await requestService.get(`${requestService.baseUrl}${eventsEndpoint}`);
     }
 );
 
 export const deleteEvent = createAsyncThunk(
     'events/deleteEvent',
     async id => {
-        return await requestService.get(`${requestService.baseUrl}/tsc/delete_event/${id}`);
+        return await requestService.delete(`${requestService.baseUrl}${eventsEndpoint}?id=${id}`);
     }
 );
 
 export const saveEvent = createAsyncThunk(
     'events/saveEvent',
     async event => {
-        return await requestService.post(`${requestService.baseUrl}/tsc/upsert_event`, event);
+        if (!event.id) {
+            return await requestService.post(`${requestService.baseUrl}${eventsEndpoint}`, event);
+        }
+        return await requestService.put(`${requestService.baseUrl}${eventsEndpoint}`, event);
     }
 );
 

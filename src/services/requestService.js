@@ -54,7 +54,34 @@ class RequestService {
             .catch(err => console.error('Request Service: ', err));
     }
 
-    postEncodeURI(url, data) {
+    put(url, data) {
+        const headers = {'Content-Type': 'application/json; charset=utf-8'};
+        if (this.oAuth2_access_token) {
+            headers.Authorization = `Bearer ${this.oAuth2_access_token}`;
+        }
+        return Promise.resolve()
+            .then(() => JSON.stringify(data))
+            .then(body => fetch(url, {
+                method: 'PUT',
+                headers,
+                body
+            }))
+            .then(resp => resp.json())
+            .catch(err => console.error('Request Service: ', err));
+    }
+
+    delete(url) {
+        const headers = {'Content-Type': 'application/json; charset=utf-8'};
+        if (this.oAuth2_access_token) {
+            headers.Authorization = `Bearer ${this.oAuth2_access_token}`;
+        }
+        return Promise.resolve()
+            .then(() => fetch(url, { method: 'DELETE', headers }))
+            .then(resp => resp.json())
+            .catch(err => console.error('Request Service: ', err));
+    }
+
+    _postEncodeURI(url, data) {
         return Promise.resolve()
             .then(() => encodeURI(data))
             .then(body => fetch(url, {
@@ -71,7 +98,7 @@ class RequestService {
     }
 
     login(username, password) {
-        return this.postEncodeURI(`${this.baseUrl}/auth/login`, { username, password, grant_type: 'password', client_id: null, client_secret: null })
+        return this._postEncodeURI(`${this.baseUrl}/auth/login`, { username, password, grant_type: 'password', client_id: null, client_secret: null })
             .then(resp => {
                 this.oAuth2_access_token = resp.access_token;
                 const expiryDate = new Date();
