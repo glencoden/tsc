@@ -2,8 +2,7 @@ import { getPoints } from '../../competition-logic/points';
 import { AgesPerGroup, Gender, Group } from '../../competition-logic/values';
 import { getAge } from '../../competition-logic/year';
 
-function addRanks(competitors, eventId) {
-    const eventIds = Array.isArray(eventId) ? eventId : [ eventId ];
+function addRanks(competitors, eventIds) {
     let curPoints = -1;
     let curRank = 1;
     const rankings = competitors
@@ -63,5 +62,7 @@ export function getRanks(competitors, eventIds) {
             competitionClasses.push(ageClass.filter(e => genderKey === e.gender));
         });
     });
-    return competitionClasses.reduce((r, e) => [ ...r, ...addRanks(e, eventIds) ], []);
+    return competitionClasses
+        .reduce((r, e) => [ ...r, ...addRanks(e, eventIds) ], [])
+        .sort((a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0));
 }

@@ -19,6 +19,9 @@ function GymnasticsList({ event, competitor }) {
     const [ gymResults, setGymResults ] = useState(results ? results : gymnasticsList.reduce((r, e) => ({ ...r, [e]: 0 }), {}));
 
     useEffect(() => {
+        if (Object.keys(gymResults).length === 0) {
+            return
+        }
         dispatch(setResult({
             eventId: event.id,
             competitorId: competitor.id,

@@ -8,6 +8,8 @@ import { saveCompetitor } from '../../Competitors/competitorsSlice';
 import { getCenterContentStyle } from '../../../util/getCenterContentStyle';
 import { MOBILE_BREAKPOINT } from '../../../constants';
 import { PrintLayout, requestService } from '../../../services/requestService';
+import { selectActiveCompetitors } from '../../../redux/selectors';
+import { getRanks } from '../../WorkSpace/util';
 
 const speedDialActions = [
     {
@@ -26,7 +28,9 @@ const speedDialActions = [
 function BottomNavigation() {
     const dispatch = useDispatch();
     const activeContent = useSelector(state => state.navigation.activeContent);
-    const rankedCompetitorList = useSelector(state => state.competitors.rankedList);
+    const competitors = useSelector(selectActiveCompetitors);
+    const activeEventIds = useSelector(state => state.competitors.activeEventIds);
+    const rankedCompetitorList = getRanks(competitors, activeEventIds);
 
     const [ speedDialOpen, setSpeedDialOpen ] = useState(false);
 

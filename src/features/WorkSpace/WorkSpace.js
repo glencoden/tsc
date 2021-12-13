@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Card, CardActions, CardContent, TextField, Typography } from '@material-ui/core';
 import { selectActiveEvent, selectActiveCompetitors, selectEventIdsForYear } from '../../redux/selectors';
-import { getCompetitors, saveCompetitor, setResult, setWeight, setRanked } from '../Competitors/competitorsSlice';
+import { getCompetitors, saveCompetitor, setResult, setWeight, setActiveEventIds } from '../Competitors/competitorsSlice';
 import { useWorkSpaceStyles } from '../../styles/styleHooks';
 import { getPoints } from '../../competition-logic/points';
 import { defaultValues } from '../../util/helpers';
@@ -13,6 +13,7 @@ import useInterval from '../../hooks/useInterval';
 import ListFilters from './ListFilters/ListFilters';
 import GymnasticsList from './GymnasticsList/GymnasticsList';
 import { MUI_INPUT_FIELD_MARGIN, WORK_SPACE_SYNCH_INTERVAL } from '../../constants';
+import { getRanks } from './util';
 
 const filters = [
     {
@@ -27,32 +28,45 @@ const filters = [
 
 
 function WorkSpace() {
+    // util
     const dispatch = useDispatch();
+    const classes = useWorkSpaceStyles();
 
-    const competitors = useSelector(selectActiveCompetitors);
-    const rankedCompetitorList = useSelector(state => state.competitors.rankedList);
+    // set active event ids on mount
 
     const activeEvent = useSelector(selectActiveEvent);
     const eventIdsForYear = useSelector(selectEventIdsForYear);
-    const eventIds = activeEvent.final ? eventIdsForYear : activeEvent.id;
 
-    const classes = useWorkSpaceStyles();
+    useEffect(() => {
+        dispatch(setActiveEventIds(
+            activeEvent.final ? eventIdsForYear : [ activeEvent.id ]
+        ))
+    }, []);
+
+    // get competitors and active event ids to create ranked list
+
+    const competitors = useSelector(selectActiveCompetitors);
+    const activeEventIds = useSelector(state => state.competitors.activeEventIds);
+
+    // local state for user work
 
     const [ activeCompetitorId, setActiveCompetitorId ] = useState(0);
     const [ filter, setFilter ] = useState(() => () => true);
+
+    // BE state synch logic
 
     const competitorIds = activeEvent?.competitorIds || defaultValues.ARRAY;
     const sync = useCallback(() => dispatch(getCompetitors(competitorIds.filter(id => id !== activeCompetitorId))), [ dispatch, activeCompetitorId, competitorIds ]);
 
     useInterval(WORK_SPACE_SYNCH_INTERVAL, sync);
 
-    useEffect(() => {
-        dispatch(setRanked({ competitors, eventIds }));
-    }, [ Object.keys(competitors).length ]); // eventIds will be the same unless usage around new year
+    // render
 
-    if (!activeEvent.id) {
+    if (!activeEvent.id || activeEventIds.length === 0) {
         return null;
     }
+
+    const rankedCompetitorList = getRanks(competitors, activeEventIds);
 
     return (
         <div>
