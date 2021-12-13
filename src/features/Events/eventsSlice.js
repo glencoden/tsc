@@ -54,8 +54,7 @@ export const eventsSlice = createSlice({
         draft: getDraftEvent()
     },
     reducers: {
-        resetEvents: state => {
-            state.activeId = 0;
+        resetDraft: state => {
             state.draft = getDraftEvent();
         },
         setEventId: (state, action) => {
@@ -136,7 +135,7 @@ export const eventsSlice = createSlice({
 });
 
 export const {
-    resetEvents,
+    resetDraft,
     setEventId,
     addCompetitorId,
     removeCompetitorId,

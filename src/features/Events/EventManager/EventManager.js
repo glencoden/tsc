@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import {
     saveEvent,
-    resetEvents,
+    resetDraft,
     setName,
     setDate,
     setPlace,
@@ -46,7 +46,8 @@ function EventManager() {
 
     const classes = useManagerStyles();
 
-    useEffect(() => () => dispatch(resetEvents()), [ dispatch ]);
+    // reset draft on unmount
+    useEffect(() => () => dispatch(resetDraft()), [ dispatch ]);
 
     const saveAndExit = () => {
         const parsedGymnastics = Object.keys(gymnastics)
@@ -114,7 +115,7 @@ function EventManager() {
                             margin={MUI_INPUT_FIELD_MARGIN}
                             fullWidth
                         />
-                        <div className={classes.spacer} />
+                        <div className={classes.spacer}/>
                         <TextField
                             id="time"
                             label="Beginn"
@@ -125,7 +126,7 @@ function EventManager() {
                             margin={MUI_INPUT_FIELD_MARGIN}
                             fullWidth
                             inputProps={{
-                                step: 300, // 5 min
+                                step: 300 // 5 min
                             }}
                         />
                     </div>
@@ -139,7 +140,7 @@ function EventManager() {
                             margin={MUI_INPUT_FIELD_MARGIN}
                             fullWidth
                         />
-                        <div className={classes.spacer} />
+                        <div className={classes.spacer}/>
                         <TextField
                             id="filled-host"
                             label="Ausrichter"
@@ -180,7 +181,10 @@ function EventManager() {
                                     rowsMax={4}
                                     variant="outlined"
                                     value={gymnastics[key]}
-                                    onChange={event => dispatch(setGymnastics({ group: key, gymnastics: event.target.value }))}
+                                    onChange={event => dispatch(setGymnastics({
+                                        group: key,
+                                        gymnastics: event.target.value
+                                    }))}
                                     margin={MUI_INPUT_FIELD_MARGIN}
                                     fullWidth
                                 />

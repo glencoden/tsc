@@ -100,10 +100,20 @@ class RequestService {
     login(username, password) {
         return this._postEncodeURI(`${this.baseUrl}/auth/login`, { username, password, grant_type: 'password', client_id: null, client_secret: null })
             .then(resp => {
+                // set token and expiry time
                 this.oAuth2_access_token = resp.access_token;
                 const expiryDate = new Date();
                 expiryDate.setSeconds(expiryDate.getSeconds() + resp.expires_in - TOKEN_EXPIRY_SAFETY_MARGIN);
                 this.tokenExpiryDate = expiryDate;
+
+                // clear database cache of deleted events and competitors older than stale time (server variable)
+                this.get(`${this.baseUrl}/tsc/clear_database`)
+                    .then(resp => {
+                        if (!resp?.success) {
+                            console.warn('error trying to clear database cache');
+                        }
+                    });
+
                 return {
                     success: true
                 };
