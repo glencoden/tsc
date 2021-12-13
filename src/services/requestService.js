@@ -1,6 +1,6 @@
 import { TOKEN_EXPIRY_SAFETY_MARGIN } from '../constants';
 
-export const PrintActionTypes = {
+export const PrintLayout = {
     CERTIFICATES: 'certificates',
     PROTOCOL: 'protocol'
 };
@@ -114,24 +114,15 @@ class RequestService {
         return new Date() < this.tokenExpiryDate;
     }
 
-    fetchPrint(type, competitorsForPrint) {
-        const data = {};
-        let url;
-        switch (type) {
-            case PrintActionTypes.CERTIFICATES:
-                data.competitors = competitorsForPrint;
-                url = `${this.baseUrl}/tsc/print_certificates`;
-                break;
-            case PrintActionTypes.PROTOCOL:
-                data.competitors = competitorsForPrint;
-                url = `${this.baseUrl}/tsc/print_protocol`;
-                break;
-            default:
-        }
+    fetchPrint(layout, competitors) {
+        const data = { competitors };
+        const url = `${this.baseUrl}/tsc/print?layout=${layout}`;
+
         const headers = {'Content-Type': 'application/json; charset=utf-8'};
         if (this.oAuth2_access_token) {
             headers.Authorization = `Bearer ${this.oAuth2_access_token}`;
         }
+
         Promise.resolve()
             .then(() => JSON.stringify(data))
             .then(body => fetch(url, {

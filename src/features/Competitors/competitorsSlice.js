@@ -15,24 +15,29 @@ function getDraftCompetitor() {
     };
 }
 
+const competitorsEndpoint = '/tsc/competitors';
+
 export const getCompetitors = createAsyncThunk(
     'competitors/getCompetitors',
-    async ids => {
-        return await requestService.post(`${requestService.baseUrl}/tsc/get_competitors`, ids);
-    }
-);
-
-export const deleteCompetitor = createAsyncThunk(
-    'competitors/deleteCompetitor',
-    async id => {
-        return await requestService.get(`${requestService.baseUrl}/tsc/delete_competitor/${id}`);
+    async () => {
+        return await requestService.get(`${requestService.baseUrl}${competitorsEndpoint}`);
     }
 );
 
 export const saveCompetitor = createAsyncThunk(
     'competitors/saveCompetitor',
     async competitor => {
-        return await requestService.post(`${requestService.baseUrl}/tsc/upsert_competitor`, competitor);
+        if (!competitor.id) {
+            return await requestService.post(`${requestService.baseUrl}${competitorsEndpoint}`, competitor);
+        }
+        return await requestService.put(`${requestService.baseUrl}${competitorsEndpoint}`, competitor);
+    }
+);
+
+export const deleteCompetitor = createAsyncThunk(
+    'competitors/deleteCompetitor',
+    async id => {
+        return await requestService.delete(`${requestService.baseUrl}${competitorsEndpoint}?id=${id}`);
     }
 );
 

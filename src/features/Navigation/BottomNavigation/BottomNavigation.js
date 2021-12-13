@@ -7,18 +7,18 @@ import { ActiveContent, setActiveContent } from '../navigationSlice';
 import { saveCompetitor } from '../../Competitors/competitorsSlice';
 import { getCenterContentStyle } from '../../../util/getCenterContentStyle';
 import { MOBILE_BREAKPOINT } from '../../../constants';
-import { PrintActionTypes, requestService } from '../../../services/requestService';
+import { PrintLayout, requestService } from '../../../services/requestService';
 
 const speedDialActions = [
     {
         icon: <span className="material-icons">event_note</span>,
         name: 'Protokoll',
-        type: PrintActionTypes.PROTOCOL
+        layout: PrintLayout.PROTOCOL
     },
     {
         icon: <span className="material-icons">people_alt</span>,
         name: 'Urkunden',
-        type: PrintActionTypes.CERTIFICATES
+        layout: PrintLayout.CERTIFICATES
     }
 ];
 
@@ -96,7 +96,7 @@ function BottomNavigation() {
                                 icon={action.icon}
                                 tooltipTitle={action.name}
                                 onClick={() => {
-                                    requestService.fetchPrint(action.type, rankedCompetitorList);
+                                    requestService.fetchPrint(action.layout, rankedCompetitorList);
                                     setSpeedDialOpen(false);
                                 }}
                             />

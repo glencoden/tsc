@@ -29,13 +29,6 @@ export const getEvents = createAsyncThunk(
     }
 );
 
-export const deleteEvent = createAsyncThunk(
-    'events/deleteEvent',
-    async id => {
-        return await requestService.delete(`${requestService.baseUrl}${eventsEndpoint}?id=${id}`);
-    }
-);
-
 export const saveEvent = createAsyncThunk(
     'events/saveEvent',
     async event => {
@@ -43,6 +36,13 @@ export const saveEvent = createAsyncThunk(
             return await requestService.post(`${requestService.baseUrl}${eventsEndpoint}`, event);
         }
         return await requestService.put(`${requestService.baseUrl}${eventsEndpoint}`, event);
+    }
+);
+
+export const deleteEvent = createAsyncThunk(
+    'events/deleteEvent',
+    async id => {
+        return await requestService.delete(`${requestService.baseUrl}${eventsEndpoint}?id=${id}`);
     }
 );
 
