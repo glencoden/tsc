@@ -23,8 +23,8 @@ class RequestService {
 
     constructor() {
         this.baseUrl = process.env.NODE_ENV === 'development'
-            ? 'http://127.0.0.1'
-            : 'https://wolke.glencoden.de';
+            ? 'http://api.lan'
+            : 'https://api.glencoden.io';
     }
 
     get(url) {
