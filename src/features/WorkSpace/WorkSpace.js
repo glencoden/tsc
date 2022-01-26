@@ -41,6 +41,7 @@ function WorkSpace() {
         dispatch(setActiveEventIds(
             activeEvent.final ? eventIdsForYear : [ activeEvent.id ]
         ))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // get competitors and active event ids to create ranked list
