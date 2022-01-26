@@ -56,8 +56,7 @@ function WorkSpace() {
 
     // BE state synch logic
 
-    const competitorIds = activeEvent?.competitorIds || defaultValues.ARRAY;
-    const sync = useCallback(() => dispatch(getCompetitors(competitorIds.filter(id => id !== activeCompetitorId))), [ dispatch, activeCompetitorId, competitorIds ]);
+    const sync = useCallback(() => dispatch(getCompetitors(activeCompetitorId)), [ dispatch, activeCompetitorId ]);
 
     useInterval(WORK_SPACE_SYNCH_INTERVAL, sync);
 

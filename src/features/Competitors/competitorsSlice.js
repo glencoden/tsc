@@ -18,8 +18,9 @@ const competitorsEndpoint = '/tsc/competitors';
 
 export const getCompetitors = createAsyncThunk(
     'competitors/getCompetitors',
-    async () => {
-        return await requestService.get(`${requestService.baseUrl}${competitorsEndpoint}`);
+    async activeId => {
+        const result = await requestService.get(`${requestService.baseUrl}${competitorsEndpoint}`);
+        return result.filter(competitor => competitor.id !== activeId);
     }
 );
 
