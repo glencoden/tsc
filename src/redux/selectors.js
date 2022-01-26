@@ -1,4 +1,4 @@
-import { defaultValues } from '../util/helpers';
+import { defaultValues } from '../utils/helpers';
 
 export const selectActiveEvent = state => state.events.activeId ? state.events.all[state.events.activeId] : defaultValues.OBJECT;
 

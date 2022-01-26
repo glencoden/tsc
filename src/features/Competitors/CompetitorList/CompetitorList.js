@@ -6,7 +6,7 @@ import { saveEvent, addCompetitorId, removeCompetitorId } from '../../Events/eve
 import { deleteCompetitor, editCompetitor, getCompetitors } from '../competitorsSlice';
 import { useListStyles } from '../../../styles/styleHooks';
 import { selectActiveEvent } from '../../../redux/selectors';
-import { defaultValues, isObject } from '../../../util/helpers';
+import { defaultValues, isObject } from '../../../utils/helpers';
 import useInterval from '../../../hooks/useInterval';
 import { COMPETITOR_LIST_REFRESH_INTERVAL } from '../../../constants';
 

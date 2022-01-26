@@ -3,7 +3,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Stepper, Step, StepLabel, StepConnector } from '@material-ui/core';
 import { steps, setActiveStep } from '../navigationSlice';
 import styles from './TopNavigation.module.css';
-import { getCenterContentStyle } from '../../../util/getCenterContentStyle';
+import { getCenterContentStyle } from '../../../utils/getCenterContentStyle';
 
 const topNavBackgroundColor = '#fff';
 

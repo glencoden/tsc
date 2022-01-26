@@ -5,11 +5,10 @@ import { Fab } from '@material-ui/core';
 import { SpeedDial, SpeedDialIcon, SpeedDialAction } from '@material-ui/lab';
 import { ActiveContent, setActiveContent } from '../navigationSlice';
 import { saveCompetitor } from '../../Competitors/competitorsSlice';
-import { getCenterContentStyle } from '../../../util/getCenterContentStyle';
+import { getCenterContentStyle } from '../../../utils/getCenterContentStyle';
 import { MOBILE_BREAKPOINT } from '../../../constants';
 import { PrintLayout, requestService } from '../../../services/requestService';
-import { selectActiveCompetitors } from '../../../redux/selectors';
-import { getRanks } from '../../WorkSpace/util';
+import { selectActiveCompetitors, selectActiveEvent } from '../../../redux/selectors';
 
 const speedDialActions = [
     {
@@ -29,8 +28,8 @@ function BottomNavigation() {
     const dispatch = useDispatch();
     const activeContent = useSelector(state => state.navigation.activeContent);
     const competitors = useSelector(selectActiveCompetitors);
+    const activeEvent = useSelector(selectActiveEvent);
     const activeEventIds = useSelector(state => state.competitors.activeEventIds);
-    const rankedCompetitorList = getRanks(competitors, activeEventIds);
 
     const [ speedDialOpen, setSpeedDialOpen ] = useState(false);
 
@@ -100,7 +99,12 @@ function BottomNavigation() {
                                 icon={action.icon}
                                 tooltipTitle={action.name}
                                 onClick={() => {
-                                    requestService.fetchPrint(action.layout, rankedCompetitorList);
+                                    requestService.fetchPrint({
+                                        layout: action.layout,
+                                        competitors,
+                                        activeEvent,
+                                        activeEventIds
+                                    });
                                     setSpeedDialOpen(false);
                                 }}
                             />

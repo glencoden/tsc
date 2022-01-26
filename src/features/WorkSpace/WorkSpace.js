@@ -5,7 +5,6 @@ import { selectActiveEvent, selectActiveCompetitors, selectEventIdsForYear } fro
 import { getCompetitors, saveCompetitor, setResult, setWeight, setActiveEventIds } from '../Competitors/competitorsSlice';
 import { useWorkSpaceStyles } from '../../styles/styleHooks';
 import { getPoints } from '../../competition-logic/points';
-import { defaultValues } from '../../util/helpers';
 import { AgesPerGroup, Gender, Group, Exceptional } from '../../competition-logic/values';
 import { getAge } from '../../competition-logic/year';
 import { getWeight } from '../../competition-logic/weights';
@@ -13,7 +12,7 @@ import useInterval from '../../hooks/useInterval';
 import ListFilters from './ListFilters/ListFilters';
 import GymnasticsList from './GymnasticsList/GymnasticsList';
 import { MUI_INPUT_FIELD_MARGIN, WORK_SPACE_SYNCH_INTERVAL } from '../../constants';
-import { getRanks } from './util';
+import { getRanks } from '../../utils/getRanks';
 
 const filters = [
     {

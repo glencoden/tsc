@@ -1,4 +1,5 @@
 import { TOKEN_EXPIRY_SAFETY_MARGIN } from '../constants';
+import { getPrintable } from '../utils/getPrintable';
 
 export const PrintLayout = {
     CERTIFICATES: 'certificates',
@@ -124,8 +125,9 @@ class RequestService {
         return new Date() < this.tokenExpiryDate;
     }
 
-    fetchPrint(layout, competitors) {
-        const data = { competitors };
+    fetchPrint({ layout, competitors, activeEvent, activeEventIds }) {
+        const printableCompetitors = getPrintable({ competitors, activeEvent, activeEventIds });
+        const data = { competitors: printableCompetitors };
         const url = `${this.baseUrl}/tsc/print?layout=${layout}`;
 
         const headers = {'Content-Type': 'application/json; charset=utf-8'};

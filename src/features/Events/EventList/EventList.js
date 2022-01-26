@@ -4,7 +4,7 @@ import { Card, CardContent, CardActions, Typography, Button, IconButton } from '
 import { ActiveContent, setActiveContent } from '../../Navigation/navigationSlice';
 import { deleteEvent, setEventId, editEvent, getEvents } from '../eventsSlice';
 import { Exceptional } from '../../../competition-logic/values';
-import { isObject } from '../../../util/helpers';
+import { isObject } from '../../../utils/helpers';
 import { useListStyles } from '../../../styles/styleHooks';
 import useInterval from '../../../hooks/useInterval';
 import { EVENT_LIST_REFRESH_INTERVAL } from '../../../constants';

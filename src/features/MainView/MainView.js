@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { getCenterContentStyle } from '../../util/getCenterContentStyle';
+import { getCenterContentStyle } from '../../utils/getCenterContentStyle';
 import styles from './MainView.module.css';
 
 
