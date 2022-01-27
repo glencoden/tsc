@@ -3,6 +3,8 @@ import { AgesPerGroup, MeasureUnit } from '../competition-logic/values';
 import { isObject } from './helpers';
 import { getPoints } from '../competition-logic/points';
 
+const fallbackString = '-';
+
 export function getPrintable({ competitors, activeEvent, activeEventIds }) {
     const ranked = getRanks(competitors, activeEventIds);
 
@@ -11,7 +13,7 @@ export function getPrintable({ competitors, activeEvent, activeEventIds }) {
 
         const { name: eventName, date: eventDate, final: eventIsFinal } = activeEvent;
 
-        const weightAtEvent = competitor.weight[activeEvent.id];
+        const weightAtEvent = competitor.weight[activeEvent.id] || fallbackString;
 
         const ageAtEvent = new Date(activeEvent.date).getFullYear() - competitor.year;
         const ageGroupAtEvent = Object.keys(AgesPerGroup).find(group => AgesPerGroup[group].includes(ageAtEvent));
@@ -22,8 +24,8 @@ export function getPrintable({ competitors, activeEvent, activeEventIds }) {
             if (!isObject(result)) {
                 return {
                     discipline,
-                    result: typeof result !== 'undefined' ? `${result} ${MeasureUnit[discipline]}` : '-',
-                    points: typeof result !== 'undefined' ? `${getPoints(discipline, result)} Punkte` : '-'
+                    result: typeof result !== 'undefined' ? `${result} ${MeasureUnit[discipline]}` : fallbackString,
+                    points: typeof result !== 'undefined' ? `${getPoints(discipline, result)} Punkte` : fallbackString
                 };
             }
             // gymnastics results
@@ -32,7 +34,7 @@ export function getPrintable({ competitors, activeEvent, activeEventIds }) {
                 result: `${Object.keys(result).length} ${MeasureUnit[discipline]}`,
                 points: `${Object.values(result).reduce((r, e) => r + parseInt(e), 0)} Punkte`
             }
-        });
+        }).slice(0, 5);
 
         return {
             name,

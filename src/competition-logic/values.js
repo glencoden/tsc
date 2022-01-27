@@ -26,8 +26,8 @@ export const Discipline = {
     H1: 'H1',
     LT: 'LT',
     DR_M: '30m',
-    SW: 'SWS',
-    SD: 'SDS',
+    SW: 'SW',
+    SD: 'SD',
     GYM: 'Turnen'
 };
 
