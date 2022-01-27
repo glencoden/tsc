@@ -35,3 +35,20 @@ export const Discipline = {
 export const Exceptional = {
     GYMNASTICS: Discipline.GYM
 };
+
+export const MeasureUnit = {
+    [Discipline.PUSH]: 'Reps',
+    [Discipline.PULL]: 'Reps',
+    [Discipline.SNATCH]: 'Kg',
+    [Discipline.CLEAN_AND_JERK]: 'Kg',
+    [Discipline.PULL_UP]: 'Reps',
+    [Discipline.T2B]: 'Reps',
+    [Discipline.SCHO]: '?',
+    [Discipline.H1]: '?',
+    [Discipline.LT]: '?',
+    [Discipline.DR_M]: '?',
+    [Discipline.SW]: '?',
+    [Discipline.SD]: '?',
+    [Discipline.PL]: '?',
+    [Discipline.GYM]: 'Übungen',
+};

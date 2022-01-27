@@ -1,6 +1,7 @@
 import { getRanks } from './getRanks';
-import { AgesPerGroup } from '../competition-logic/values';
+import { AgesPerGroup, MeasureUnit } from '../competition-logic/values';
 import { isObject } from './helpers';
+import { getPoints } from '../competition-logic/points';
 
 export function getPrintable({ competitors, activeEvent, activeEventIds }) {
     const ranked = getRanks(competitors, activeEventIds);
@@ -15,14 +16,22 @@ export function getPrintable({ competitors, activeEvent, activeEventIds }) {
         const ageAtEvent = new Date(activeEvent.date).getFullYear() - competitor.year;
         const ageGroupAtEvent = Object.keys(AgesPerGroup).find(group => AgesPerGroup[group].includes(ageAtEvent));
 
-        const resultsForEvent = { ...competitor.results[activeEvent.id] } || {};
-        Object.keys(resultsForEvent).forEach(discipline => {
-            const result = resultsForEvent[discipline];
+        const rawResults = { ...competitor.results[activeEvent.id] } || {};
+        const resultsForEvent = Object.keys(rawResults).map(discipline => {
+            const result = rawResults[discipline];
             if (!isObject(result)) {
-                return
+                return {
+                    discipline,
+                    result: `${result} ${MeasureUnit[discipline]}`,
+                    points: `${getPoints(discipline, result)} Punkte`
+                };
             }
-            // add up gymnastics results
-            resultsForEvent[discipline] = `${Object.values(result).reduce((r, e) => r + parseInt(e), 0)}`;
+            // gymnastics results
+            return {
+                discipline,
+                result: `${Object.keys(result).length} ${MeasureUnit[discipline]}`,
+                points: `${Object.values(result).reduce((r, e) => r + parseInt(e), 0)} Punkte`
+            }
         });
 
         return {
