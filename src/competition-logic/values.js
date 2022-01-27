@@ -26,9 +26,8 @@ export const Discipline = {
     H1: 'H1',
     LT: 'LT',
     DR_M: '30m',
-    SW: 'SW',
-    SD: 'SD',
-    PL: 'PL',
+    SW: 'SWS',
+    SD: 'SDS',
     GYM: 'Turnen'
 };
 
@@ -37,18 +36,17 @@ export const Exceptional = {
 };
 
 export const MeasureUnit = {
-    [Discipline.PUSH]: 'Reps',
-    [Discipline.PULL]: 'Reps',
+    [Discipline.PUSH]: 'Wdh',
+    [Discipline.PULL]: 'Wdh',
     [Discipline.SNATCH]: 'Kg',
     [Discipline.CLEAN_AND_JERK]: 'Kg',
-    [Discipline.PULL_UP]: 'Reps',
-    [Discipline.T2B]: 'Reps',
-    [Discipline.SCHO]: '?',
-    [Discipline.H1]: '?',
-    [Discipline.LT]: '?',
-    [Discipline.DR_M]: '?',
-    [Discipline.SW]: '?',
-    [Discipline.SD]: '?',
-    [Discipline.PL]: '?',
+    [Discipline.PULL_UP]: 'Wdh',
+    [Discipline.T2B]: 'Wdh',
+    [Discipline.SCHO]: 'Meter',
+    [Discipline.H1]: 'Sek',
+    [Discipline.LT]: 'Sek',
+    [Discipline.DR_M]: 'Sek',
+    [Discipline.SW]: 'Meter',
+    [Discipline.SD]: 'Meter',
     [Discipline.GYM]: 'Übungen',
 };
