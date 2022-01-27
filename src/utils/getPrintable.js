@@ -9,7 +9,7 @@ export function getPrintable({ competitors, activeEvent, activeEventIds }) {
     return ranked.map(competitor => {
         const { name, gender, club, points, rank, year } = competitor;
 
-        const { name: eventName, place: eventPlace, date: eventDate, start: eventStart, final: eventIsFinal } = activeEvent;
+        const { name: eventName, date: eventDate, final: eventIsFinal } = activeEvent;
 
         const weightAtEvent = competitor.weight[activeEvent.id];
 
@@ -22,8 +22,8 @@ export function getPrintable({ competitors, activeEvent, activeEventIds }) {
             if (!isObject(result)) {
                 return {
                     discipline,
-                    result: `${result} ${MeasureUnit[discipline]}`,
-                    points: `${getPoints(discipline, result)} Punkte`
+                    result: typeof result !== 'undefined' ? `${result} ${MeasureUnit[discipline]}` : '-',
+                    points: typeof result !== 'undefined' ? `${getPoints(discipline, result)} Punkte` : '-'
                 };
             }
             // gymnastics results
@@ -42,13 +42,11 @@ export function getPrintable({ competitors, activeEvent, activeEventIds }) {
             rank,
             year,
             eventName,
-            eventPlace,
             eventDate,
-            eventStart,
             eventIsFinal,
             weightAtEvent,
             ageGroupAtEvent,
             resultsForEvent
         };
-    });
+    }).filter(e => !!e.name && !!e.gender && !!e.club && !!e.year);
 }

@@ -19,7 +19,6 @@ const getters = {
     [Discipline.SW]: createTable(1.35, 2.85, 0, 50),
     [Discipline.SD]: createTable(4, 9, 0, 50),
     [Discipline.SCHO]: createTable(3, 13, 0, 50),
-    [Discipline.PL]: createTable(9, 14, 50, 0),
     // Jan 2021: coach inputs gymnastics points sum, result outputs x3
     [Discipline.GYM]: createTable(0, 10, 0, 30, 0.5),
     [Discipline.SNATCH]: createTable(0, 10, 0, 30, 0.5),

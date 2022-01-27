@@ -127,6 +127,9 @@ class RequestService {
 
     fetchPrint({ layout, competitors, activeEvent, activeEventIds }) {
         const printableCompetitors = getPrintable({ competitors, activeEvent, activeEventIds });
+
+        console.log('printableCompetitors', printableCompetitors);
+
         const data = { competitors: printableCompetitors };
         const url = `${this.baseUrl}/tsc/print?layout=${layout}`;
 
