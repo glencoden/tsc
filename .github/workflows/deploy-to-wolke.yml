@@ -26,7 +26,7 @@ jobs:
       - name: clear server directory
         run: |
           ssh root@${{ secrets.SERVER_ADDRESS }} <<"ENDSSH"
-          rm -rf /root/apps/tsc/
+          rm -rf /root/apps/tsc/*
           mkdir -p /root/apps/tsc/
           ENDSSH
       - name: deploy build
