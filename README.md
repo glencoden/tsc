@@ -1,3 +1,3 @@
 Organizer for TSC youth competitions
 
-https://glencoden.github.io/tsc/
+https://tsc.glencoden.io

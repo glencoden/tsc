@@ -63,6 +63,5 @@ export function getRanks(competitors, eventIds) {
         });
     });
     return competitionClasses
-        .reduce((r, e) => [ ...r, ...addRanks(e, eventIds) ], [])
-        .sort((a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0));
+        .reduce((r, e) => [ ...r, ...addRanks(e, eventIds) ], []);
 }

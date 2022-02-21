@@ -5,7 +5,7 @@ import { selectActiveEvent, selectActiveCompetitors, selectEventIdsForYear } fro
 import { getCompetitors, saveCompetitor, setResult, setWeight, setActiveEventIds } from '../Competitors/competitorsSlice';
 import { useWorkSpaceStyles } from '../../styles/styleHooks';
 import { getPoints } from '../../competition-logic/points';
-import { AgesPerGroup, Gender, Group, Exceptional } from '../../competition-logic/values';
+import { AgesPerGroup, Gender, Group, Exceptional, Discipline } from '../../competition-logic/values';
 import { getAge } from '../../competition-logic/year';
 import { getWeight } from '../../competition-logic/weights';
 import useInterval from '../../hooks/useInterval';
@@ -13,6 +13,12 @@ import ListFilters from './ListFilters/ListFilters';
 import GymnasticsList from './GymnasticsList/GymnasticsList';
 import { MUI_INPUT_FIELD_MARGIN, WORK_SPACE_SYNCH_INTERVAL } from '../../constants';
 import { getRanks } from '../../utils/getRanks';
+
+const sortAlphabetically = (a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0);
+
+function getSortByWeightDisc(discipline, activeEventId) {
+    return (a, b) => getWeight(a.year, a.gender, a.weight[activeEventId], discipline) - getWeight(b.year, b.gender, b.weight[activeEventId], discipline);
+}
 
 const filters = [
     {
@@ -59,13 +65,25 @@ function WorkSpace() {
 
     useInterval(WORK_SPACE_SYNCH_INTERVAL, sync);
 
-    // render
+    // early exit
 
     if (!activeEvent.id || activeEventIds.length === 0) {
         return null;
     }
 
-    const rankedCompetitorList = getRanks(competitors, activeEventIds);
+    // generate and sort competitors list
+
+    let sortCallback = sortAlphabetically;
+
+    if (activeEvent.disciplines[Discipline.PUSH]) {
+        sortCallback = getSortByWeightDisc(Discipline.PUSH, activeEvent.id);
+    } else if (activeEvent.disciplines[Discipline.PULL]) {
+        sortCallback = getSortByWeightDisc(Discipline.PULL, activeEvent.id);
+    }
+
+    const rankedCompetitorList = getRanks(competitors, activeEventIds).sort(sortCallback);
+
+    // render
 
     return (
         <div>

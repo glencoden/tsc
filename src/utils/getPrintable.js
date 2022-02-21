@@ -8,6 +8,7 @@ const maxResultsForEventLength = 5;
 
 export function getPrintable({ competitors, activeEvent, activeEventIds }) {
     return getRanks(competitors, activeEventIds)
+        .sort((a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0))
         .map(competitor => {
             const { name, gender, club, points, rank, year } = competitor;
 
