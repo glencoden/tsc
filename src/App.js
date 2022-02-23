@@ -31,6 +31,7 @@ function App() {
     const [ , triggerRerender ] = useState(false);
 
     useEffect(() => {
+        console.log('version 4.10');
         const resize = () => triggerRerender(prevState => !prevState);
         window.addEventListener('resize', resize);
         return () => window.removeEventListener('resize', resize);

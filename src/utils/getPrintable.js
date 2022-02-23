@@ -34,7 +34,7 @@ export function getPrintable({ competitors, activeEvent, activeEventIds }) {
                                 {
                                     discipline,
                                     result: `${numGymnastics} ${MeasureUnit[discipline]}`,
-                                    points: `${Object.values(result).reduce((r, e) => r + parseInt(e), 0)} Punkte`
+                                    points: `${getPoints(discipline, result)} Punkte`
                                 }
                             ];
                         }
