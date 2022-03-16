@@ -1,7 +1,8 @@
 import { Discipline, Exceptional } from './values';
 
-function createTable(inStart, inEnd, outStart, outEnd, roundTo = 1) {
-    return function(val) {
+function createTable(inStart, inEnd, outStart, outEnd, roundTo = 1, inputParser = input => input) {
+    return function(input) {
+        const val = inputParser(input);
         return Math.max(Math.round(((outStart - outEnd) * (val - inStart) / (inStart - inEnd) + outStart) / roundTo), 0) * roundTo;
     }
 }
@@ -17,7 +18,7 @@ const getters = {
     [Discipline.LT]: createTable(11, 16, 50, 0),
     [Discipline.DR_M]: createTable(4.3, 6.3, 40, 0),
     [Discipline.SW]: createTable(1.35, 2.85, 0, 50),
-    [Discipline.SD]: createTable(4, 9, 0, 50),
+    [Discipline.SD]: createTable(4, 9, 0, 50, 1, input => Math.floor(input * 10) / 10),
     [Discipline.SCHO]: createTable(3, 13, 0, 50),
     // Jan 2021: coach inputs gymnastics points sum, result outputs x3
     [Discipline.GYM]: createTable(0, 10, 0, 30, 0.5),

@@ -24,7 +24,7 @@ import {
     toggleFinal
 } from '../eventsSlice';
 import { ActiveContent, setActiveContent } from '../../Navigation/navigationSlice';
-import { AgesPerGroup, Exceptional } from '../../../competition-logic/values';
+import { AgesPerGroup, deprecatedDisciplines, Exceptional } from '../../../competition-logic/values';
 import { getBirthYear } from '../../../competition-logic/year';
 import { useManagerStyles } from '../../../styles/styleHooks';
 import { parseCommaSeparation } from './util';
@@ -153,20 +153,22 @@ function EventManager() {
                     </div>
 
                     <FormGroup row>
-                        {Object.keys(disciplines).map(key => (
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={disciplines[key]}
-                                        onChange={() => dispatch(toggleDiscipline(key))}
-                                        name={key}
-                                        color={key === Exceptional.GYMNASTICS ? 'primary' : 'secondary'}
-                                    />
-                                }
-                                label={key}
-                                key={key}
-                            />
-                        ))}
+                        {Object.keys(disciplines)
+                            .filter(key => !deprecatedDisciplines.find(deprecated => deprecated === key) || disciplines[key])
+                            .map(key => (
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={disciplines[key]}
+                                            onChange={() => dispatch(toggleDiscipline(key))}
+                                            name={key}
+                                            color={key === Exceptional.GYMNASTICS ? 'primary' : 'secondary'}
+                                        />
+                                    }
+                                    label={key}
+                                    key={key}
+                                />
+                            ))}
                     </FormGroup>
 
                     {disciplines[Exceptional.GYMNASTICS] && Object.keys(gymnastics).map(key => {

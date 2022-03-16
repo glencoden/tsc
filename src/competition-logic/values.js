@@ -31,6 +31,11 @@ export const Discipline = {
     GYM: 'Turnen'
 };
 
+export const deprecatedDisciplines = [
+    Discipline.SNATCH,
+    Discipline.CLEAN_AND_JERK
+];
+
 export const Exceptional = {
     GYMNASTICS: Discipline.GYM
 };
