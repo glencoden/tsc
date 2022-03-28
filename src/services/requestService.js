@@ -23,10 +23,10 @@ class RequestService {
     tokenExpiryDate = null;
 
     constructor() {
-        this.baseUrl = process.env.NODE_ENV === 'development'
-            ? 'http://api.lan'
-            : 'https://api.glencoden.io';
-        // this.baseUrl = 'https://api.glencoden.io';
+        // this.baseUrl = process.env.NODE_ENV === 'development'
+        //     ? 'http://api.lan'
+        //     : 'https://api.glencoden.io';
+        this.baseUrl = 'https://api.glencoden.io';
     }
 
     get(url) {
