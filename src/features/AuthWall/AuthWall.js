@@ -26,6 +26,7 @@ function AuthWall() {
             releaseWakeLock();
             window.removeEventListener('pointerdown', setWakeLock);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ open ]);
 
     // authentication

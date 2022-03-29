@@ -45,7 +45,7 @@ function WorkSpace() {
     useEffect(() => {
         dispatch(setActiveEventIds(
             activeEvent.final ? eventIdsForYear : [ activeEvent.id ]
-        ))
+        ));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

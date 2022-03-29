@@ -68,6 +68,19 @@ export const useWorkSpaceStyles = makeStyles(theme => ({
     editorPoints: {
         marginLeft: '10px'
     },
+    gymnasticsInput: {
+        marginBottom: '5px'
+    },
+    gymnasticsInputTitle: {
+        maxHeight: '48px',
+        marginRight: '5px',
+        overflow: 'hidden'
+    },
+    gymnasticsInputButton: {
+        width: '48px',
+        height: '48px',
+        boxShadow: 'none'
+    },
     gymnasticsResult: {
         alignSelf: 'center',
         display: 'flex',

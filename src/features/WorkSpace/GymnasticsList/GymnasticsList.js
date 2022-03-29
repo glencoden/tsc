@@ -5,7 +5,9 @@ import { getAge } from '../../../competition-logic/year';
 import { useEffect, useState } from 'react';
 import { setResult } from '../../Competitors/competitorsSlice';
 import { getPoints } from '../../../competition-logic/points';
-import { FormControl, InputLabel, MenuItem, Select, Typography } from '@material-ui/core';
+import { Button, ButtonGroup, Typography } from '@material-ui/core';
+
+const possibleResults = [ 0, 0.5, 1, 1.5, 2 ];
 
 
 function GymnasticsList({ event, competitor }) {
@@ -16,7 +18,7 @@ function GymnasticsList({ event, competitor }) {
     const gymnastics = event.gymnastics[Object.values(Group).find(e => AgesPerGroup[e].includes(getAge(competitor.year)))];
     const gymnasticsList = gymnastics.split(', ').filter(e => !!e);
 
-    const [ gymResults, setGymResults ] = useState(results ? results : gymnasticsList.reduce((r, e) => ({ ...r, [e]: 0 }), {}));
+    const [ gymResults, setGymResults ] = useState(results ? results : gymnasticsList.reduce((r, e) => ({ ...r, [e]: possibleResults[0] }), {}));
 
     useEffect(() => {
         if (Object.keys(gymResults).length === 0) {
@@ -38,33 +40,47 @@ function GymnasticsList({ event, competitor }) {
 
     return (
         <>
-            <Typography variant="overline" paragraph className={classes.marginTop}>
+            <Typography
+                className={classes.marginTop}
+                variant="subtitle1"
+                paragraph
+            >
                 {Exceptional.GYMNASTICS}
             </Typography>
-            <div className={classes.editor}>
-                {gymnasticsList
-                    .map(name => (
-                        <FormControl key={name} style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                            <InputLabel id={`${name}-label`}>{name}</InputLabel>
-                            <Select
-                                labelId={`${name}-label`}
-                                id={`${name}`}
-                                value={gymResults[name]}
-                                onChange={event => setGymResults(prevState => {
-                                    const result = { ...prevState };
-                                    result[name] = event.target.value;
-                                    return result;
-                                })}
-                            >
-                                <MenuItem value={2}>2</MenuItem>
-                                <MenuItem value={1.5}>1,5</MenuItem>
-                                <MenuItem value={1}>1</MenuItem>
-                                <MenuItem value={0.5}>0,5</MenuItem>
-                                <MenuItem value={0}>0</MenuItem>
-                            </Select>
-                        </FormControl>
-                    ))
-                }
+                {gymnasticsList.map(name => (
+                    <div
+                        key={name}
+                        className={`${classes.editor} ${classes.gymnasticsInput}`}
+                    >
+                        <Typography
+                            className={classes.gymnasticsInputTitle}
+                            variant="body2"
+                            color="textSecondary"
+                        >
+                            {name}
+                        </Typography>
+                        <ButtonGroup>
+                            {possibleResults.map(possibleResult => {
+                                const active = gymResults[name] === possibleResult;
+                                return (
+                                    <Button
+                                        key={`${name}${possibleResult}`}
+                                        className={classes.gymnasticsInputButton}
+                                        variant={active ? 'contained' : 'outlined'}
+                                        color={active ? 'secondary' : 'default'}
+                                        onClick={() => setGymResults(prevState => {
+                                            const result = { ...prevState };
+                                            result[name] = possibleResult;
+                                            return result;
+                                        })}
+                                    >
+                                        {possibleResult}
+                                    </Button>
+                                );
+                            })}
+                        </ButtonGroup>
+                    </div>
+                ))}
                 <div className={classes.gymnasticsResult}>
                     <span className={`material-icons ${classes.editorIcon}`}>
                         play_arrow
@@ -73,7 +89,6 @@ function GymnasticsList({ event, competitor }) {
                         {points ? points : '--'}
                     </Typography>
                 </div>
-            </div>
         </>
     );
 }
