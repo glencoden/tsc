@@ -1,8 +1,8 @@
 import { Discipline, Exceptional } from './values';
 
 function createTable(inStart, inEnd, outStart, outEnd, roundTo = 1) {
-    const inputStep =  (outEnd - outStart) / (inEnd - inStart) / roundTo;
-    const inputParser = input => (Math.floor(input * inputStep) / inputStep);
+    const inputIncrement =  (outEnd - outStart) / (inEnd - inStart) / roundTo;
+    const inputParser = input => (Math.floor(input * inputIncrement) / inputIncrement);
 
     return function(input) {
         const val = inputParser(input);

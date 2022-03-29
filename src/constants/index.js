@@ -5,9 +5,10 @@ export const MOBILE_BREAKPOINT = 576; // px
 export const MUI_INPUT_FIELD_MARGIN = 'dense'; // mui native property
 
 // timing
+export const WAKE_LOCK_TIME = 5; // minutes
 export const EVENT_LIST_REFRESH_INTERVAL = 15; // seconds
 export const COMPETITOR_LIST_REFRESH_INTERVAL = 15; // seconds
-export const WORK_SPACE_SYNCH_INTERVAL = 5; // seconds
+export const WORK_SPACE_SYNC_INTERVAL = 5; // seconds
 
 // request service
 export const O_AUTH_2_USER_NAME = 'michi_mueller';

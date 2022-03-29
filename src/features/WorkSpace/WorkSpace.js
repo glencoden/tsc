@@ -11,7 +11,7 @@ import { getWeight } from '../../competition-logic/weights';
 import useInterval from '../../hooks/useInterval';
 import ListFilters from './ListFilters/ListFilters';
 import GymnasticsList from './GymnasticsList/GymnasticsList';
-import { MUI_INPUT_FIELD_MARGIN, WORK_SPACE_SYNCH_INTERVAL } from '../../constants';
+import { MUI_INPUT_FIELD_MARGIN, WORK_SPACE_SYNC_INTERVAL } from '../../constants';
 import { getRanks } from '../../utils/getRanks';
 
 const sortAlphabetically = (a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0);
@@ -63,7 +63,7 @@ function WorkSpace() {
 
     const sync = useCallback(() => dispatch(getCompetitors(activeCompetitorId)), [ dispatch, activeCompetitorId ]);
 
-    useInterval(WORK_SPACE_SYNCH_INTERVAL, sync);
+    useInterval(WORK_SPACE_SYNC_INTERVAL, sync);
 
     // early exit
 

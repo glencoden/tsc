@@ -1,8 +1,9 @@
-import { useState, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, TextField } from '@material-ui/core';
 import { requestService } from '../../services/requestService';
 import useInterval from '../../hooks/useInterval';
-import { O_AUTH_2_USER_NAME, TOKEN_EXPIRY_SAFETY_MARGIN } from '../../constants';
+import { WAKE_LOCK_TIME, O_AUTH_2_USER_NAME, TOKEN_EXPIRY_SAFETY_MARGIN } from '../../constants';
+import useWakeLock from '../../hooks/useWakeLock';
 
 
 function AuthWall() {
@@ -10,10 +11,29 @@ function AuthWall() {
     const [ password, setPassword ] = useState('');
     const [ errorText, setErrorText ] = useState('');
 
+    // wake lock
+
+    const { setWakeLock, releaseWakeLock } = useWakeLock(WAKE_LOCK_TIME * 60 * 1000);
+
+    useEffect(() => {
+        if (open) {
+            releaseWakeLock();
+            return;
+        }
+        setWakeLock();
+        window.addEventListener('pointerdown', setWakeLock);
+        return () => {
+            releaseWakeLock();
+            window.removeEventListener('pointerdown', setWakeLock);
+        };
+    }, [ open ]);
+
+    // authentication
+
     const validateAuth = useCallback(
         () => {
             if (requestService.isAuthTokenValid()) {
-                return
+                return;
             }
             setOpen(true);
         },
