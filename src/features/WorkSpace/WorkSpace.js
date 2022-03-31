@@ -5,8 +5,7 @@ import { selectActiveEvent, selectActiveCompetitors, selectEventIdsForYear } fro
 import { getCompetitors, saveCompetitor, setResult, setWeight, setActiveEventIds } from '../Competitors/competitorsSlice';
 import { useWorkSpaceStyles } from '../../styles/styleHooks';
 import { getPoints } from '../../competition-logic/points';
-import { AgesPerGroup, Gender, Group, Exceptional, Discipline } from '../../competition-logic/values';
-import { getAge } from '../../competition-logic/year';
+import { Exceptional, Discipline } from '../../competition-logic/values';
 import { getWeight } from '../../competition-logic/weights';
 import useInterval from '../../hooks/useInterval';
 import ListFilters from './ListFilters/ListFilters';
@@ -19,17 +18,6 @@ const sortAlphabetically = (a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0)
 function getSortByWeightDisc(discipline, activeEventId) {
     return (a, b) => getWeight(a.year, a.gender, a.weight[activeEventId], discipline) - getWeight(b.year, b.gender, b.weight[activeEventId], discipline);
 }
-
-const filters = [
-    {
-        [Gender.FEMALE]: competitor => competitor.gender === Gender.FEMALE,
-        [Gender.MALE]: competitor => competitor.gender === Gender.MALE
-    },
-    {
-        [Group.A]: competitor => AgesPerGroup[Group.A].includes(getAge(competitor.year)),
-        [Group.B]: competitor => AgesPerGroup[Group.B].includes(getAge(competitor.year))
-    }
-];
 
 
 function WorkSpace() {
@@ -57,7 +45,6 @@ function WorkSpace() {
     // local state for user work
 
     const [ activeCompetitorId, setActiveCompetitorId ] = useState(0);
-    const [ filter, setFilter ] = useState(() => () => true);
 
     // BE state synch logic
 
@@ -87,11 +74,8 @@ function WorkSpace() {
 
     return (
         <div>
-            <ListFilters
-                filters={filters}
-                setFilter={setFilter}
-            />
-            {!!rankedCompetitorList.length && rankedCompetitorList.filter(filter).map((competitor, i) => {
+            <ListFilters />
+            {!!rankedCompetitorList.length && rankedCompetitorList.map((competitor, i) => {
                 const active = activeCompetitorId === competitor.id;
                 return (
                     <Card

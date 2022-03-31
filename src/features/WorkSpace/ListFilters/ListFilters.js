@@ -1,16 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Button, ButtonGroup } from '@material-ui/core';
 import { useFilterStyles } from '../../../styles/styleHooks';
+import { useDispatch } from 'react-redux';
+import { setFilter } from '../../Competitors/competitorsSlice';
+import { Gender, Group } from '../../../competition-logic/values';
+
+const filters = [
+    [ Gender.FEMALE, Gender.MALE] ,
+    [ Group.A, Group.B ]
+];
 
 
-function ListFilters({ filters, setFilter }) {
+function ListFilters() {
+    const dispatch = useDispatch();
     const classes = useFilterStyles();
 
     const [ filterList, setFilterList ] = useState([]);
 
+    const dispatchFilter = useCallback(
+        filter => dispatch(setFilter(filter)),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        []
+    );
+
     useEffect(() => {
-        setFilter(() => element => filterList.every(fn => typeof fn === 'function' ? fn(element) : true));
-    }, [ filterList, setFilter ]);
+        dispatchFilter(filterList.filter(Boolean));
+        return () => dispatchFilter(null);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ filterList ]);
 
     return (
         <div className={classes.filter}>
@@ -21,8 +38,8 @@ function ListFilters({ filters, setFilter }) {
                         key={i}
                         className={classes.filterGroup}
                     >
-                        {Object.keys(filterGroup).map(name => {
-                            const active = filterList[i] === filterGroup[name];
+                        {filterGroup.map(name => {
+                            const active = filterList[i] === name;
                             return (
                                 <Button
                                     key={name}
@@ -30,9 +47,9 @@ function ListFilters({ filters, setFilter }) {
                                     onClick={() => setFilterList(prevState => {
                                         const result = [ ...prevState ];
                                         if (active) {
-                                            result[i] = undefined;
+                                            result[i] = null;
                                         } else {
-                                            result[i] = filterGroup[name];
+                                            result[i] = name;
                                         }
                                         return result;
                                     })}

@@ -47,6 +47,7 @@ export const competitorsSlice = createSlice({
         all: {},
         draft: getDraftCompetitor(),
         activeEventIds: [],
+        filter: null
     },
     reducers: {
         resetCompetitors: state => {
@@ -94,6 +95,9 @@ export const competitorsSlice = createSlice({
         },
         setActiveEventIds: (state, action) => {
             state.activeEventIds = action.payload;
+        },
+        setFilter: (state, action) => {
+            state.filter = action.payload;
         }
     },
     extraReducers: {
@@ -131,7 +135,8 @@ export const {
     setWeight,
     setClub,
     setResult,
-    setActiveEventIds
+    setActiveEventIds,
+    setFilter
 } = competitorsSlice.actions;
 
 export default competitorsSlice.reducer;

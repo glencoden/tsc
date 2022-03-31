@@ -1,14 +1,37 @@
 import { getRanks } from './getRanks';
-import { AgesPerGroup, Exceptional, MeasureUnit } from '../competition-logic/values';
+import { AgesPerGroup, Exceptional, Gender, Group, MeasureUnit } from '../competition-logic/values';
 import { getPoints } from '../competition-logic/points';
+import getCompetitorsFilter from './getCompetitorsFilter';
 
 const fallbackPrintValue = '-';
 const maxResultsForEventLength = 5;
 
+function sortCompetitors(a, b) {
+    return a.rank - b.rank;
+}
 
 export function getPrintable({ competitors, activeEvent, activeEventIds }) {
-    return getRanks(competitors, activeEventIds)
-        .sort((a, b) => a.name.charCodeAt(0) - b.name.charCodeAt(0))
+    const rankedCompetitors = getRanks(competitors, activeEventIds);
+    const competitorsByCompetitionGroups = [
+        ...rankedCompetitors
+            .filter(getCompetitorsFilter(Gender.FEMALE))
+            .filter(getCompetitorsFilter(Group.A))
+            .sort(sortCompetitors),
+        ...rankedCompetitors
+            .filter(getCompetitorsFilter(Gender.MALE))
+            .filter(getCompetitorsFilter(Group.A))
+            .sort(sortCompetitors),
+        ...rankedCompetitors
+            .filter(getCompetitorsFilter(Gender.FEMALE))
+            .filter(getCompetitorsFilter(Group.B))
+            .sort(sortCompetitors),
+        ...rankedCompetitors
+            .filter(getCompetitorsFilter(Gender.MALE))
+            .filter(getCompetitorsFilter(Group.B))
+            .sort(sortCompetitors),
+    ];
+
+    return competitorsByCompetitionGroups
         .map(competitor => {
             const { name, gender, club, points, rank, year } = competitor;
 
