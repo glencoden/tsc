@@ -44,7 +44,7 @@ function WorkSpace() {
 
     // local state for user work
 
-    const [ activeCompetitorId, setActiveCompetitorId ] = useState(0);
+    const [ activeCompetitorId, setActiveCompetitorId ] = useState(null);
 
     // BE state synch logic
 
@@ -86,7 +86,7 @@ function WorkSpace() {
                             if (active) {
                                 return;
                             }
-                            if (activeCompetitorId) {
+                            if (activeCompetitorId !== null) {
                                 dispatch(saveCompetitor(competitors.find(e => e.id === activeCompetitorId)));
                             }
                             setActiveCompetitorId(competitor.id);

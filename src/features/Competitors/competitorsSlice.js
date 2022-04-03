@@ -4,7 +4,7 @@ import { Gender } from '../../competition-logic/values';
 
 function getDraftCompetitor() {
     return {
-        id: 0,
+        id: null,
         name: '',
         gender: Gender.FEMALE,
         year: new Date().toISOString().split('T')[0].split('-')[0] - 9,
@@ -27,7 +27,7 @@ export const getCompetitors = createAsyncThunk(
 export const saveCompetitor = createAsyncThunk(
     'competitors/saveCompetitor',
     async competitor => {
-        if (!competitor.id) {
+        if (competitor.id === null) {
             return await requestService.post(`${requestService.baseUrl}${competitorsEndpoint}`, competitor);
         }
         return await requestService.put(`${requestService.baseUrl}${competitorsEndpoint}`, competitor);
@@ -66,11 +66,11 @@ export const competitorsSlice = createSlice({
             state.draft.year = action.payload;
         },
         setWeight: (state, action) => {
-            if (!action.payload.eventId) {
+            if (typeof action.payload.eventId !== 'number') {
                 console.warn('you tried to set a weight without an event id');
                 return;
             }
-            if (!action.payload.competitorId) {
+            if (typeof action.payload.competitorId !== 'number') {
                 console.warn('you tried to set a weight without a competitor id');
                 return;
             }
@@ -80,11 +80,11 @@ export const competitorsSlice = createSlice({
             state.draft.club = action.payload;
         },
         setResult: (state, action) => {
-            if (!action.payload.eventId) {
+            if (typeof action.payload.eventId !== 'number') {
                 console.warn('you tried to set a result without an event id');
                 return;
             }
-            if (!action.payload.competitorId) {
+            if (typeof action.payload.competitorId !== 'number') {
                 console.warn('you tried to set a result without a competitor id');
                 return;
             }

@@ -4,7 +4,7 @@ import { Discipline, Group } from '../../competition-logic/values';
 
 function getDraftEvent() {
     return {
-        id: 0,
+        id: null,
         name: '',
         date: new Date().toISOString().split('T')[0],
         place: '',
@@ -32,7 +32,7 @@ export const getEvents = createAsyncThunk(
 export const saveEvent = createAsyncThunk(
     'events/saveEvent',
     async event => {
-        if (!event.id) {
+        if (event.id === null) {
             return await requestService.post(`${requestService.baseUrl}${eventsEndpoint}`, event);
         }
         return await requestService.put(`${requestService.baseUrl}${eventsEndpoint}`, event);
@@ -50,7 +50,7 @@ export const eventsSlice = createSlice({
     name: 'events',
     initialState: {
         all: {},
-        activeId: 0,
+        activeId: null,
         draft: getDraftEvent()
     },
     reducers: {
@@ -61,13 +61,13 @@ export const eventsSlice = createSlice({
             state.activeId = action.payload;
         },
         addCompetitorId: (state, action) => {
-            if (!state.activeId) {
+            if (state.activeId === null) {
                 return;
             }
             state.all[state.activeId].competitorIds.push(action.payload);
         },
         removeCompetitorId: (state, action) => {
-            if (!state.activeId) {
+            if (state.activeId === null) {
                 return;
             }
             const activeEvent = state.all[state.activeId];
@@ -118,7 +118,7 @@ export const eventsSlice = createSlice({
                 return;
             }
             if (state.activeId === Number(action.payload.id)) {
-                state.activeId = 0;
+                state.activeId = null;
             }
             delete state.all[action.payload.id];
         },
