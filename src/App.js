@@ -31,15 +31,6 @@ function App() {
     const [ , triggerRerender ] = useState(false);
 
     useEffect(() => {
-        console.log(
-            `%cglencoden ❤️ version 4.2 on ${process.env.REACT_APP_HOST_ENV}`,
-            `font-size: 1rem;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 0.5rem;
-            color: white;
-            background:linear-gradient(#E66465, #9198E5);`
-        );
         const resize = () => triggerRerender(prevState => !prevState);
         window.addEventListener('resize', resize);
         return () => window.removeEventListener('resize', resize);

@@ -23,20 +23,18 @@ class RequestService {
     tokenExpiryDate = null;
 
     constructor() {
-        if (process.env.NODE_ENV === 'development') {
-            this.baseUrl = 'localhost:5555';
-        } else {
-            switch (process.env.REACT_APP_HOST_ENV) {
-                case 'develop':
-                    this.baseUrl = 'http://tsc.lan';
-                    break;
-                case 'staging':
-                    this.baseUrl = 'https://api.glencoden.io';
-                    break;
-                case 'prod':
-                    this.baseUrl = 'https://api.glencoden.io';
-                    break;
-            }
+        switch (process.env.REACT_APP_HOST_ENV) {
+            case 'develop':
+                this.baseUrl = 'http://tsc.lan';
+                break;
+            case 'staging':
+                this.baseUrl = 'https://api.glencoden.io';
+                break;
+            case 'prod':
+                this.baseUrl = 'https://api.glencoden.io';
+                break;
+            default:
+                this.baseUrl = 'http://localhost:5555';
         }
     }
 
