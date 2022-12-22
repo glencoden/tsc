@@ -32,7 +32,7 @@ function App() {
 
     useEffect(() => {
         console.log(
-            '%cglencoden ❤️ version 4.2',
+            `%cglencoden ❤️ version 4.2 on ${process.env.REACT_APP_HOST_ENV}`,
             `font-size: 1rem;
             padding: 1rem;
             margin: 1rem 0;

@@ -17,7 +17,9 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build",
+        "build:dev": "REACT_APP_HOST_ENV=develop react-scripts build",
+        "build:staging": "REACT_APP_HOST_ENV=staging react-scripts build",
+        "build:prod": "REACT_APP_HOST_ENV=prod react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
