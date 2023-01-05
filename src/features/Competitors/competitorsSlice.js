@@ -14,7 +14,7 @@ function getDraftCompetitor() {
     };
 }
 
-const competitorsEndpoint = '/tsc/competitors';
+const competitorsEndpoint = '/api/competitors';
 
 export const getCompetitors = createAsyncThunk(
     'competitors/getCompetitors',

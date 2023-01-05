@@ -28,10 +28,10 @@ class RequestService {
                 this.baseUrl = 'http://tsc.lan';
                 break;
             case 'staging':
-                this.baseUrl = 'https://api.glencoden.io';
+                this.baseUrl = '';
                 break;
             case 'prod':
-                this.baseUrl = 'https://api.glencoden.io';
+                this.baseUrl = '';
                 break;
             default:
                 this.baseUrl = 'http://localhost:5555';
@@ -118,7 +118,7 @@ class RequestService {
                 this.tokenExpiryDate = expiryDate;
 
                 // clear database cache of deleted events and competitors older than stale time (server variable)
-                this.get(`${this.baseUrl}/tsc/clear_database`)
+                this.get(`${this.baseUrl}/api/clear_database`)
                     .then(resp => {
                         if (!resp?.success) {
                             console.warn('error trying to clear database cache');
@@ -138,7 +138,7 @@ class RequestService {
     fetchPrint({ layout, competitors, activeEvent, activeEventIds }) {
         const printableCompetitors = getPrintable({ competitors, activeEvent, activeEventIds });
         const data = { competitors: printableCompetitors };
-        const url = `${this.baseUrl}/tsc/print?layout=${layout}`;
+        const url = `${this.baseUrl}/api/print?layout=${layout}`;
 
         const headers = {'Content-Type': 'application/json; charset=utf-8'};
         if (this.oAuth2_access_token) {

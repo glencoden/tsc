@@ -20,7 +20,7 @@ function getDraftEvent() {
     };
 }
 
-const eventsEndpoint = '/tsc/events';
+const eventsEndpoint = '/api/events';
 
 export const getEvents = createAsyncThunk(
     'events/getEvents',
