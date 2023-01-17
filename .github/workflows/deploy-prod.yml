@@ -4,7 +4,7 @@ on:
       - main
 
 jobs:
-  deploy-to-wolke-staging:
+  deploy-to-wolke-prod:
     runs-on: ubuntu-latest
     steps:
       - name: check out repository
