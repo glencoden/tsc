@@ -119,7 +119,7 @@ function WorkSpace() {
                                                 type="number"
                                                 variant="outlined"
                                                 value={competitor.weight[activeEvent.id]}
-                                                onChange={event => dispatch(setWeight({
+                                                onBlur={event => dispatch(setWeight({
                                                     eventId: activeEvent.id,
                                                     competitorId: competitor.id,
                                                     weight: event.target.value
