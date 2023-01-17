@@ -1,0 +1,33 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-to-wolke-staging:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check out repository
+        uses: actions/checkout@v2
+      - name: install node
+        uses: actions/setup-node@v2
+      - name: install dependencies
+        run: yarn install
+      - name: build app
+        run: yarn build:prod
+      - name: copy ssh key
+        run: |
+          mkdir -p ~/.ssh
+          echo -e "${{ secrets.SSH_PRIVATE_KEY_DEV }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+      - name: clear server directory
+        run: |
+          ssh root@${{ secrets.SERVER_ADDRESS_PROD }} <<"ENDSSH"
+          rm -rf /root/apps/tsc/build*
+          mkdir -p /root/apps/tsc/build
+          ENDSSH
+      - name: deploy build
+        run: |
+          cd build/
+          scp -r * root@${{ secrets.SERVER_ADDRESS_PROD }}:/root/apps/tsc/build
