@@ -6,7 +6,7 @@ import reducer from './redux/reducer';
 import './index.css';
 import App from './App';
 
-const APP_VERSION = '4.2.3';
+const APP_VERSION = '4.2.4';
 
 ReactDOM.render(
     <Provider store={configureStore({ reducer })}>
