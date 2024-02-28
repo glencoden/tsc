@@ -17,7 +17,7 @@ const getters = {
     [Discipline.PULL_UP]: createTable(0, 15, 0, 30),
     [Discipline.T2B]: createTable(0, 15, 0, 30),
     // Jan 2021: values from printed table
-    [Discipline.H1]: createTable(11, 14, 30, 0, 2),
+    [Discipline.H1]: createTable(11, 17, 30, 0),
     [Discipline.LT]: createTable(11, 16, 50, 0),
     [Discipline.DR_M]: createTable(4.3, 6.3, 40, 0),
     [Discipline.SW]: createTable(1.35, 2.85, 0, 50),
